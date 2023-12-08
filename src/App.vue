@@ -1,14 +1,17 @@
 <template>
-  <HelloWorld/>
+  <div class="bg-green-400 h-screen">
+    <Navbar/>
+    <RouterView></RouterView>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from './components/Navbar.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Navbar
   }
 }
 </script>
