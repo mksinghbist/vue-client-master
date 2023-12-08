@@ -14,7 +14,7 @@
     md:static absolute bg-gray-900 md:w-auto w-1/2 top-14 duration-700 ease-in opacity-90"
     :class="[isOpen ? 'left-0' : 'left-[-100%]']">
         <li class="md:mx-4 md:my-0 my-6" v-for="link in Links" :key="link.id">
-        <router-link :to="link.link" class="text-xl hover:text-green-500">{{ link.name }}</router-link> 
+        <router-link :to="link.link" @click="MenuOpen()" class="text-xl hover:text-green-500">{{ link.name }}</router-link> 
         </li>
         <acButton>Get Started</acButton>  
     </ul> 
