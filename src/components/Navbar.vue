@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gray-900 text-gray-100 py-3.5 px-6 shadow 
-    md:flex justify-between item-center">
+    md:flex justify-between item-center fixed top-0 left-0 right-0">
     <div class="flex item-center cursor-pointer">
         <span class="text-green-500 text-xl mr-1">
         <img class="w-10" src="../assets/LocalBazZar.png"/>
