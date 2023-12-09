@@ -3,9 +3,9 @@
     md:flex justify-between item-center">
     <div class="flex item-center cursor-pointer">
         <span class="text-green-500 text-xl mr-1">
-        A2Z
+        <img class="w-10" src="../assets/LocalBazZar.png"/>
         </span>
-        <h1 class="text-xl">Designer</h1>
+        <h1 class="text-xl"><strong>Local Bazzar</strong></h1>
     </div>
     <span @click="MenuOpen()" class="absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl">
     <i :class="[isOpen ? 'bi bi-x' : 'bi bi-filter-left']"></i>
@@ -30,7 +30,7 @@ components : { acButton },
 setup () {
     var isOpen = ref(false);
     var Links = [
-        { name : "Home", link: '/'},
+        { name : "Home", link: '/home'},
         { name : "Services", link: 'service'},
         { name : "About", link: 'about'},
         { name : "Contact", link: 'contact'},

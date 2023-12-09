@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-green-400 h-screen">
+  <div class="bg-white-900 h-screen">
     <Navbar/>
     <RouterView></RouterView>
   </div>
@@ -11,7 +11,7 @@ import Navbar from './components/Navbar.vue'
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
   }
 }
 </script>
