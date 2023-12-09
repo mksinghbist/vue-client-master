@@ -10,11 +10,11 @@
             <a href="#"><strong>Local Bazzar</strong></a>
           </div>
           <p class="mt-6 font-normal text-center text-gray-300 md:mt-0">
-            On Local Bazzar  PlatForm provide Best Quality and Delivery on time
+            On Local Bazzar Platform Provide Best Quality and Delivery on time
           </p>
           <p class="flex flex-col items-center justify-center mt-10 text-center">
             <span>If you have an account?</span>
-            <a href="/" class="underline">Get Started!</a>
+            <router-link to="/" class="underline hover:text-green-500">Get Started!</router-link> 
           </p>
           <p class="mt-6 text-sm text-center text-gray-300">
             Read our <a href="#" class="underline">terms</a> and <a href="#" class="underline">conditions</a>
