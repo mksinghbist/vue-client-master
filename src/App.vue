@@ -1,7 +1,9 @@
 <template>
   <div class="bg-white-900 h-screen">
-    <Navbar/>
-    <RouterView></RouterView>
+    <div><Navbar/></div>
+    <div class="mt-20">
+      <RouterView></RouterView>
+    </div>
   </div>
 </template>
 
