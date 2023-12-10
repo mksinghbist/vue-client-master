@@ -7,7 +7,7 @@
         </span>
         <h1 class="text-xl"><strong>Local Bazzar</strong></h1>
     </div>
-    <SearchBar></SearchBar>
+    <!-- <SearchBar></SearchBar> -->
     <span @click="MenuOpen()" class="absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl">
     <i :class="[isOpen ? 'bi bi-x' : 'bi bi-filter-left']"></i>
     </span>
@@ -25,10 +25,10 @@
 <script>
 import { ref } from 'vue';
 import acButton from './Button.vue';
-import SearchBar from './SearchBar.vue';
+//import SearchBar from './SearchBar.vue';
 export default {
 name : 'NavBar',
-components : { acButton,SearchBar },
+components : { acButton },
 setup () {
     var isOpen = ref(false);
     var Links = [
