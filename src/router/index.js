@@ -43,10 +43,11 @@ const routes = [
     component: SignUpPage
   },
 ]
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
+router.afterEach(() => {
+  document.title = 'Local Bazzar';
+});
 export default router
