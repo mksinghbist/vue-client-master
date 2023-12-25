@@ -1,5 +1,5 @@
 <template>
-  <div v-if='!isLogined' class="flex items-center min-h-screen bg-gray-100 lg:justify-center">
+  <div v-if='!isLogined' class="flex items-center min-h-screen bg-gray-100 lg:justify-center m-4">
     <div
       class="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md"
     >
