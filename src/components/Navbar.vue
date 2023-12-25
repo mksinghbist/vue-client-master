@@ -45,12 +45,10 @@ setup () {
     const router = useRouter();
     var Links = computed(() => {
         const updatedNavRouter = [...store.state.navRouter];
-        console.log(isAdmin.value)
         if (isAdmin.value) {
-            //updatedNavRouter.splice(2, 0, { name: "Product Add", link: '/productAdd' });
+            updatedNavRouter.splice(2, 0, { name: "Product Add", link: '/productAdd' });
             updatedNavRouter.splice(3, 0, { name: "Admin Panel", link: '/adminPanel' });
         }
-        console.log(updatedNavRouter)
         return updatedNavRouter;
     })
     const MenuOpen = ()=> {
