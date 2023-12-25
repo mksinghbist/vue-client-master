@@ -5,12 +5,16 @@ import ProductServe from '../components/Service.vue';
 import Home from '../components/Home.vue';
 import LoginPage from '../components/LoginPage.vue';
 import SignUpPage from '../components/SignUpPage.vue';
+import ProductAdd from '../components/ProductAdd.vue';
+import AdminPanel from '../components/admin/AdminPanel.vue'
+import App from '../App.vue'
+import store from '../store';
 
 const routes = [
   {
     path: '/',
-    name: 'LoginPage',
-    component: LoginPage
+    name: 'App',
+    component: App
   },
   {
     path: '/home',
@@ -30,7 +34,10 @@ const routes = [
   {
     path: '/service',
     name: 'Service',
-    component: ProductServe
+    component: ProductServe,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/signup',
@@ -38,10 +45,21 @@ const routes = [
     component: SignUpPage
   },
   {
-    path: '/signup',
-    name: 'Signup',
-    component: SignUpPage
+    path: '/login',
+    name: 'Login',
+    component: LoginPage
   },
+  {
+    path: '/productAdd',
+    name: 'ProductAdd',
+    component: ProductAdd 
+  },
+  {
+    path: '/adminPanel',
+    name: 'AdminPannel',
+    component: AdminPanel 
+  },
+  
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -49,5 +67,24 @@ const router = createRouter({
 })
 router.afterEach(() => {
   document.title = 'Local Bazzar';
+});
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = store.state.isAuthenticated;
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!isAuthenticated) {
+      if(to.name == "Signup") {
+        next();
+      } 
+      else {
+        next('/login');
+      }
+    } 
+    else {
+      next();
+    }
+  }
+  else {
+    next();
+  }
 });
 export default router
