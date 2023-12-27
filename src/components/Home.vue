@@ -1,13 +1,16 @@
 <template>
-    <div class="">       
-    </div>
-    
+  <div>
+    <productInsert></productInsert>
+  </div>
 </template>
+
 <script>
+import productInsert from './products/productInsert.vue';
 export default {
   name: 'HomePage',
-  components : { },
-  props: {
-  }
-}
+  components: { productInsert },
+};
 </script>
+
+<style scoped>
+</style>
