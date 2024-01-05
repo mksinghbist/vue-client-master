@@ -46,7 +46,7 @@ setup () {
     var Links = computed(() => {
         const updatedNavRouter = [...store.state.navRouter];
         if (isAdmin.value) {
-            updatedNavRouter.splice(2, 0, { name: "Product Add", link: '/productAdd' });
+            updatedNavRouter.splice(2, 0, { name: "Product Upload", link: '/productAdd' });
             updatedNavRouter.splice(3, 0, { name: "Admin Panel", link: '/adminPanel' });
         }
         return updatedNavRouter;

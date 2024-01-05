@@ -1,14 +1,14 @@
 <template>
   <div>
-    <productInsert></productInsert>
+    <Service></Service>
   </div>
 </template>
 
 <script>
-import productInsert from './products/productInsert.vue';
+import Service from './Service.vue';
 export default {
   name: 'HomePage',
-  components: { productInsert },
+  components: { Service },
 };
 </script>
 

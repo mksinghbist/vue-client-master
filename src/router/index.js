@@ -5,16 +5,15 @@ import ProductServe from '../components/Service.vue';
 import Home from '../components/Home.vue';
 import LoginPage from '../components/LoginPage.vue';
 import SignUpPage from '../components/SignUpPage.vue';
-import ProductAdd from '../components/ProductAdd.vue';
+import ProductAdd from '../components/products/ProductInsert.vue';
 import AdminPanel from '../components/admin/AdminPanel.vue'
-import App from '../App.vue'
 import store from '../store';
 
 const routes = [
   {
     path: '/',
     name: 'App',
-    component: App
+    component: Home
   },
   {
     path: '/home',
