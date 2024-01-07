@@ -32,7 +32,7 @@ export default {
     })
     const fetchData = () => {
       var isLoginValue = sessionStorage.getItem('isAuthenticated');
-      if (isLoginValue == 'false' || isLoginValue == null) {
+      if (isLoginValue == 'false' || isLoginValue == null || isLoginValue == undefined) {
         store.commit('setIsLogin', false);
         router.push('/login');
       } else {

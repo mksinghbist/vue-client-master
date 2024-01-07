@@ -1,5 +1,5 @@
 <template>
-  <div v-if='!isLogined' class="flex items-center min-h-screen bg-gray-100 lg:justify-center m-4">
+  <div v-if='!isLogined && !isSignup' class="flex items-center min-h-screen bg-gray-100 lg:justify-center m-4">
     <div
       class="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md"
     >
@@ -65,8 +65,12 @@
       </div>
     </div>
   </div>
-  <div v-if="isLogined">
-      <Navbar v-if="!isSignup"></Navbar> 
+  <AcLoader :loading="isLoading"></AcLoader>
+  <div v-if="isLogined && !isSignup">
+      <Navbar></Navbar> 
+      <RouterView></RouterView>
+  </div>
+  <div v-if="isSignup">
       <div :class="{ 'mt-0': isSignup , 'mt-20' : !isSignup }">
         <RouterView></RouterView>
       </div>
@@ -79,10 +83,11 @@ import { insertDataFromApi } from '../services/apiService.ts';
 import { useStore } from 'vuex';
 import Navbar from './Navbar.vue';
 import { useRouter } from 'vue-router';
+import AcLoader from './common/AcLoader.vue';
 
 export default {
   name: 'LoginPage',
-  components: { Navbar },
+  components: { Navbar, AcLoader },
   setup () {
     const store = useStore();
     const userEmail = ref('');
@@ -91,12 +96,15 @@ export default {
     const errMessage = ref('');
     const router = useRouter();
     const isSignup = ref(false);
+    const isLoading = ref(false);
     const userLogin = async () => {
       try {
+        isLoading.value = true;
         const data = await insertDataFromApi('login', { 
           userEmail: userEmail.value, 
           password: userPassword.value 
-        });
+        })
+        isLoading.value = false;
         if(data.status == 'true' || data.status == true) {
           store.commit('setUserData', JSON.stringify(data));
           sessionStorage.setItem('isAuthenticated', true);
@@ -114,11 +122,13 @@ export default {
         sessionStorage.setItem('isAuthenticated', false);
         errMessage.value = '';
         isError.value = true;
+        //isLoading.value = false;
       }
     };
     const openSignUp = () => {
-      store.commit('setIsLogin', true);
+      //store.commit('setIsLogin', true);
       isSignup.value = true;
+      console.log("isSingup -->", isSignup.value );
     }
     const isLogined = computed(() => {
       return store.state.isLogin;
@@ -131,7 +141,8 @@ export default {
       isError,
       isLogined,
       openSignUp,
-      isSignup
+      isSignup,
+      isLoading
     };
   }
 }

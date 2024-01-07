@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-const API_BASE_URL = process.env.VUE_APP_API_BASE_URL; //'http://localhost:3000/api'; // Replace with your API base URL
+const API_BASE_URL = process.env.VUE_APP_API_BASE_URL; 
 
 export const fetchDataFromApi = async <T>(endpoint: string, payload?: any): Promise<T> => {
   try {

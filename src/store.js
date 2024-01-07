@@ -38,11 +38,12 @@ const store = createStore({
     },
     checkUserLogin({commit}) {
       const isUserLogin = sessionStorage.getItem('isUserLogin') === 'true';
+      console.log('isUserLogin in store --->', isUserLogin );
       commit('setIsLogin', isUserLogin);
     },
     getUser({commit}) {
       const userInfo = sessionStorage.getItem('userInfo');
-      commit('setUserData', userInfo);
+      if(userInfo != null) commit('setUserData', userInfo);
     },
   }
 });

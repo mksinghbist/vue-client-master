@@ -53,25 +53,44 @@
             </div>
         </div>
         </section>
+        <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
+            <div class="mr-6">
+                <h2 class="text-3xl font-semibold mb-1">User Details</h2>
+            </div>
+        </div>
+        <CustomTable :headerData="tableIndex" :tableData="customerData"></CustomTable>
     </main>
 </div>
 </template>
 <script>
 import { computed , ref, onMounted, onBeforeUnmount} from 'vue';
-
+import CustomTable from '../common/CustomTable.vue';
+import { fetchDataFromApi } from '@/services/apiService'; 
 export default {
     name : 'AdminPanel',
-    components : {},
+    components : { CustomTable },
     props: {},
     setup () {
         const screenWidth = ref(window.innerWidth);
+        const tableIndex = ref(['Id','Name', 'Email', 'Account Status']);
+        const customerData = ref([]);
 
         const handleResize = () => {
             screenWidth.value = window.innerWidth;
         };
+        const fetechUser = async () => {
+            try {
+                const data = await fetchDataFromApi('users');
+                customerData.value = data.users;
+                console.log(customerData.value);
+            } catch (error) {
+                customerData.value = [];
+            }
+        };
 
-        onMounted(() => {
+        onMounted(async () => {
             window.addEventListener('resize', handleResize);
+            await fetechUser();
         });
 
         onBeforeUnmount(() => {
@@ -85,6 +104,8 @@ export default {
 
         return {
             isScreenlg,
+            tableIndex,
+            customerData,
         };
     }
 }
