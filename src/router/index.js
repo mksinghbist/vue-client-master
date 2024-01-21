@@ -6,8 +6,10 @@ import Home from '../components/Home.vue';
 import LoginPage from '../components/LoginPage.vue';
 import SignUpPage from '../components/SignUpPage.vue';
 import ProductAdd from '../components/products/ProductInsert.vue';
+import ProductList from '../components/products/ProductList.vue'; 
 import AdminPanel from '../components/admin/AdminPanel.vue'
 import store from '../store';
+//import jwtToken from '../common/user'
 
 const routes = [
   {
@@ -51,12 +53,26 @@ const routes = [
   {
     path: '/productAdd',
     name: 'ProductAdd',
-    component: ProductAdd 
+    component: ProductAdd,
+    meta: {
+      admin: true,
+    }, 
+  },
+  {
+    path: '/productlist',
+    name: 'ProductList',
+    component: ProductList,
+    meta: {
+      admin: true,
+    },
   },
   {
     path: '/adminPanel',
     name: 'AdminPannel',
-    component: AdminPanel 
+    component: AdminPanel,
+    meta: {
+      admin: true,
+    }, 
   },
   
 ]

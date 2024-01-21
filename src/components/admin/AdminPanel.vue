@@ -58,7 +58,27 @@
                 <h2 class="text-3xl font-semibold mb-1">User Details</h2>
             </div>
         </div>
-        <CustomTable :headerData="tableIndex" :tableData="customerData"></CustomTable>
+        <CustomTable :tableDataLength="tableDataLength" :itemsPerPage="itemsPerPage"  @page-changed="handlePageChanged">
+            <template v-slot:tableHeader>
+                <th class="py-2 px-4 border-b text-center" v-for="header in tableIndex" :key="header">
+                {{ header }}
+                </th>
+            </template>
+            <template v-slot:tableBody>
+                <tr v-for="(item, index) in paginationData" :key="item.id" :class="{ 'bg-gray-100': index % 2 !== 0 }">
+                    <td class="py-2 px-4 border-b text-center">{{ index }}</td>
+                    <td class="py-2 px-4 border-b text-center">{{ item.name }}</td>
+                    <td class="py-2 px-4 border-b text-center">{{ item.userEmail }}</td>
+                    <td class="py-2 px-4 border-b text-center">{{ item.admin }}</td>
+                    <td class="py-2 px-4 border-b text-center">
+                        <select>
+                        <option value="enable">Enable</option>
+                        <option value="disable">Disable</option>
+                        </select>
+                    </td>
+                </tr>
+            </template>
+        </CustomTable>
     </main>
 </div>
 </template>
@@ -72,9 +92,13 @@ export default {
     props: {},
     setup () {
         const screenWidth = ref(window.innerWidth);
-        const tableIndex = ref(['Id','Name', 'Email', 'Account Status']);
+        const tableIndex = ref(['Id','Name', 'Email', 'Admin Status','Status']);
         const customerData = ref([]);
-
+        const itemsPerPage = 4 ;
+        const currentPage = ref(1);
+        const handlePageChanged = (cPageValue) => {
+            currentPage.value = cPageValue;
+        }
         const handleResize = () => {
             screenWidth.value = window.innerWidth;
         };
@@ -82,12 +106,17 @@ export default {
             try {
                 const data = await fetchDataFromApi('users');
                 customerData.value = data.users;
-                console.log(customerData.value);
             } catch (error) {
                 customerData.value = [];
             }
         };
-
+        const tableBodyData = computed(() => customerData.value );
+        const paginationData = computed(() => {
+          const start = (currentPage.value - 1) * itemsPerPage;
+          const end = start + itemsPerPage;
+          return tableBodyData.value.slice(start, end);
+      });
+      const tableDataLength = computed(() => tableBodyData.value.length);
         onMounted(async () => {
             window.addEventListener('resize', handleResize);
             await fetechUser();
@@ -105,7 +134,10 @@ export default {
         return {
             isScreenlg,
             tableIndex,
-            customerData,
+            paginationData,
+            itemsPerPage,
+            handlePageChanged,
+            tableDataLength,
         };
     }
 }

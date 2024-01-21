@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isLoading" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
-    <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+  <div v-if="isLoading" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+    <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-400 h-12 w-12 mb-4"></div>
   </div>
 </template>
 <script>
@@ -26,7 +26,7 @@ export default {
 </script>
 <style>
 .loader {
-	border-top-color: #3498db;
+	border-top-color: #3498db !important;
 	-webkit-animation: spinner 1.5s linear infinite;
 	animation: spinner 1.5s linear infinite;
 }

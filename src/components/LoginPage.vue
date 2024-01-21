@@ -1,5 +1,5 @@
 <template>
-  <div v-if='!isLogined && !isSignup' class="flex items-center min-h-screen bg-gray-100 lg:justify-center m-4">
+  <div v-if='!isLogined && !isSignup' class="flex items-center min-h-screen bg-gray-100 lg:justify-center">
     <div
       class="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md"
     >
@@ -27,7 +27,7 @@
         <h3 class="my-4 text-2xl font-semibold text-gray-700">Account Login</h3>
         <form @submit.prevent="userLogin" class="flex flex-col space-y-5">
           <div class="flex flex-col space-y-1">
-            <label for="email" class="text-sm font-semibold text-gray-500">Email address</label>
+            <label for="email" class="text-sm font-semibold text-black-500">Email address</label>
             <input
               v-model="userEmail" 
               autofocus
@@ -36,7 +36,7 @@
           </div>
           <div class="flex flex-col space-y-1">
             <div class="flex items-center justify-between">
-              <label for="password" class="text-sm font-semibold text-gray-500">Password</label>
+              <label for="password" class="text-sm font-semibold text-black-500">Password</label>
               <a href="#" class="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a>
             </div>
             <input
@@ -51,7 +51,7 @@
               id="remember"
               class="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
             />
-            <label for="remember" class="text-sm font-semibold text-gray-500">Remember me</label>
+            <label for="remember" class="text-sm font-semibold text-black-500">Remember me</label>
           </div>
           <div>
             <button

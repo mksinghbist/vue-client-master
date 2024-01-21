@@ -1,19 +1,40 @@
-// jwtUtils.js
-import jwt from 'jsonwebtoken';
+// // jwtUtils.js
+// import jwt from 'jsonwebtoken';
 
-export const isTokenExpired = (token) => {
-  if (!token) {
-    return true;
-  }
+// class JwtToken {
+//   constructor() {
+//     this.secretKey = 'manoj@ayush-ayansh-2021';
+//     this.user = "";
+//   }
 
-  try {
-    const decoded = jwt.decode(token);
-    if (decoded && decoded.exp) {
-      // Check if the token is expired
-      return Date.now() >= decoded.exp * 1000;
-    }
-  } catch (error) {
-    console.error('Error decoding JWT token:', error);
-  }
-  return true;
-};
+//   isTokenExpired = () => {
+//     let token = sessionStorage.getItem('userInfo');
+//     if (!token) {
+//       return false;
+//     }
+//     jwt.verify(token, this.secretKey, (err, decoded) => {
+//       if (err) {
+//         return false;
+//       }
+//       this.user = decoded;
+//       return true;
+//     });
+//   };
+
+//   isAdmin = async () => {
+//     try {
+//       await jwtToken.isTokenExpired(); // await the asynchronous function
+//       if (this.user !== "") {
+//         const user = JSON.parse(this.user);
+//         return user.isAdmin || false;
+//       }
+//     } catch (err) {
+//       console.log('admin checking -->', err);
+//       return false;
+//     }
+//   };
+// }
+
+// const jwtToken = new JwtToken();
+
+// export default jwtToken;

@@ -1,9 +1,18 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
 const API_BASE_URL = process.env.VUE_APP_API_BASE_URL; 
+const setHeader = () => {
+  const userInfoString = sessionStorage.getItem('userInfo');
+  const userInfo = userInfoString ? JSON.parse(userInfoString) : null;
+  const accessToken = userInfo?.token || '';
+  console.log(accessToken);
+  // Set the default headers for all Axios requests
+  axios.defaults.headers.common['Authorization'] = accessToken;
+}
 
 export const fetchDataFromApi = async <T>(endpoint: string, payload?: any): Promise<T> => {
   try {
+    setHeader();
     const response: AxiosResponse<T> = await axios.get(`${API_BASE_URL}/${endpoint}`, {
       params: payload, // Pass payload as params
     });
@@ -31,6 +40,7 @@ export const fetchDataFromApi = async <T>(endpoint: string, payload?: any): Prom
 
 export const insertDataFromApi = async <T>(endpoint: string, payload?: any): Promise<T> => {
   try {
+    setHeader();
     const response: AxiosResponse<T> = await axios.post(`${API_BASE_URL}/${endpoint}`, payload);
     return response.data;
   } catch (error) {
@@ -58,6 +68,7 @@ export const fileUpload = async <T>(
   payload?: FormData
 ): Promise<T> => {
   try {
+    setHeader();
     const response: AxiosResponse<T> = await axios.post(
       `${API_BASE_URL}/${endpoint}`,
       payload,

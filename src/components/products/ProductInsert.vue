@@ -67,7 +67,7 @@
                   :class="{ 'border-red-500': validationErrorQty }"
                   name="productQty"
                   placeholder="0"
-                  v-model="productInputQty"
+                  v-model="productQty"
                   @input="validateQuantity"
                   step="any"
                   required
@@ -92,7 +92,7 @@
               <span v-if="validationErrorDescription" class="text-red-400">Description should not be empty</span>
             </div>
             <div class="p-4 flex justify-end">
-              <Button bType="button" @click="checkPreviewProduct">Preview</Button>
+              <Button bType="button" @click="checkPreviewProduct(previewProduct)">Preview</Button>
               <Button class="ml-5" bType="submit">Add</Button>
             </div>
           </form>
@@ -121,13 +121,13 @@
 <script>
 import { ref , onMounted } from 'vue';
 import Button from '../Button.vue'
-import { fileUpload } from '@/services/apiService'
+import { fileUpload , insertDataFromApi} from '@/services/apiService';
 export default {
   name: "productInsert",
   components: { Button },
   setup() {
     const productPrice = ref(0);
-    const productInputQty = ref(0);
+    const productQty = ref(0);
     const productDescription = ref('');
     const validationErrorPrice = ref(false);
     const validationErrorQty = ref(false);
@@ -171,7 +171,7 @@ export default {
       formData.append('file', files[0]);
       try {
         const response = await fileUpload('products/upload', formData );
-        productImgUrl.value = process.env.VUE_APP_API_BASE_URL + '/products/' + response.filename
+        productImgUrl.value = process.env.VUE_APP_API_BASE_URL + '/products/img/' + response.filename
         checkProductUploadStatus(true);
         productUpload.value = true;
       } catch (error) {
@@ -187,32 +187,42 @@ export default {
     };
 
     const validateQuantity = () => {
-      validationErrorQty.value = productInputQty.value <= 0;
+      validationErrorQty.value = productQty.value <= 0;
     };
 
     const validateDescription = () => {
       validationErrorDescription.value = productDescription.value.trim() === '';
     };
 
-    const submitForm = () => {
-      let productPayload = {
-        productImgUrl : productImgUrl.value,
-        productTitle : productTitle.value,
-        productQty : productTitle.value,
-        productPrice : productPrice.value,
-        productType: selectedProduct.value,
+    const submitForm = async () => {
+      try {
+        var productPayload = {
+          productImgUrl : productImgUrl.value,
+          productTitle : productTitle.value,
+          productQty : productQty.value,
+          productPrice : productPrice.value,
+          productType: selectedProduct.value,
+          productDescription : productDescription.value,
+        }
+        const data = await insertDataFromApi('products/add', productPayload );
+        if(data.status == 'true' || data.status == true) {
+            console.log('adding success full -->', data)
+        }
+      } catch(error) {
+        console.log('adding success full -->', error)
       }
       console.log('Product details -->', productPayload);
     };
-    const checkPreviewProduct = () => {
-      previewProduct.value = true;
+    const checkPreviewProduct = (isPreviewStatus) => {
+      previewProduct.value = isPreviewStatus ? false  : true;
+      console.log(isPreviewStatus , previewProduct.value);
     };
     onMounted(() => {
       fileInput.value = document.getElementById('fileInput');
     });
     return {
       productPrice,
-      productInputQty,
+      productQty,
       fileInput,
       productDescription,
       validationErrorPrice,
