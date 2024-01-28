@@ -110,6 +110,8 @@ export default {
           sessionStorage.setItem('isAuthenticated', true);
           store.commit('setAuthentication', true);
           store.commit('setIsLogin', true);
+          store.commit('setAdminStatus', JSON.stringify(data));
+          
           isSignup.value = false;
           router.push('/');
         } else {

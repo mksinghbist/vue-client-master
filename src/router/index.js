@@ -15,12 +15,12 @@ const routes = [
   {
     path: '/',
     name: 'App',
-    component: Home
+    component: store.state.isAdmin ? AdminPanel : Home,
   },
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: store.state.isAdmin ? AdminPanel : Home,
   },
   {
     path: '/about',

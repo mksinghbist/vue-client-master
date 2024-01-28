@@ -1,5 +1,11 @@
 <template>
     <div class="p-4 m-4 table-auto mx-auto">
+        <AcButton buttonType="text" @click="onClickButton" class="mb-4">Adding Product</AcButton>
+        <AcModal v-if="isModalOpen" :is-modal-open="isModalOpen" @handleModal="isModalClose">
+            <template v-slot:acModalBody>
+                <ProductInsert></ProductInsert>
+            </template>
+        </AcModal>
         <CustomTable :tableDataLength="tableDataLength" :itemsPerPage="itemsPerPage"  @page-changed="handlePageChanged">
             <template v-slot:tableHeader>
                 <th class="py-2 px-4 border-b text-center" v-for="header in tableIndex" :key="header">
@@ -9,6 +15,9 @@
             <template v-slot:tableBody>
                 <tr v-for="(item, index) in paginationData" :key="item.id" :class="{ 'bg-gray-100': index % 2 !== 0 }">
                     <td class="py-2 px-4 border-b text-center">{{ index }}</td>
+                    <td class="py-2 px-4 border-b text-center">
+                        <img class="w-10" :src="item.productImgUrl"/>
+                    </td>
                     <td class="py-2 px-4 border-b text-center">{{ item.productTitle }}</td>
                     <td class="py-2 px-4 border-b text-center">
                         <input type="text" class="rounded-md" v-model=item.productPrice />
@@ -38,15 +47,19 @@
 import { computed,ref,onMounted} from 'vue';
 import { fetchDataFromApi } from '@/services/apiService';
 import CustomTable from '../common/CustomTable.vue'
+import AcButton from '../Button.vue';
+import AcModal from '../common/AcModal.vue'
+import ProductInsert from './ProductInsert.vue';
 export default {
     name : 'ProductList',
-    components: { CustomTable },
+    components: { CustomTable,AcButton,AcModal,ProductInsert },
     setup () {
         const productList = ref([]);
         const newProductList = computed(() => productList.value);
-        const tableIndex = ref(['Id','Name','Price', 'Quantity','Minimum Qty', 'Maximum Qty', "Sold Qty",'Status']);
+        const tableIndex = ref(['Id','Image', 'Name','Price', 'Quantity','Minimum Qty', 'Maximum Qty', "Sold Qty",'Status']);
         const itemsPerPage = 10;
         const currentPage = ref(1);
+        const modalOpen = ref(false);
 
         const handlePageChanged = (cPageValue) => {
             currentPage.value = cPageValue;
@@ -66,6 +79,17 @@ export default {
           const end = start + itemsPerPage;
           return newProductList.value.slice(start, end);
         });
+        const onClickButton = () => {
+            modalOpen.value = true;
+            console.log('user click on button', modalOpen.value);
+        };
+        const isModalClose = (val) => {
+            modalOpen.value = val;  
+        }
+        const isModalOpen = computed(() => {
+            console.log('user click on button', modalOpen.value);
+            return modalOpen.value;
+        });
 
         const tableDataLength = computed(() => newProductList.value.length);
 
@@ -78,7 +102,10 @@ export default {
             itemsPerPage,
             tableDataLength,
             handlePageChanged,
-            paginationData
+            paginationData,
+            onClickButton,
+            isModalOpen,
+            isModalClose
         }
     }
 }

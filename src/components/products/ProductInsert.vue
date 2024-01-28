@@ -2,7 +2,7 @@
   <div class="container mx-4 my-4">
     <div class="flex">
       <!-- Left Card -->
-      <div class="w-full border p-4 lg:w-1/2 shadow-sm bg-gray-100" id="productAdd">
+      <div v-if="!previewProduct" class="w-full border p-4 shadow-sm bg-gray-100" id="productAdd">
           <div class="custom-file-input-container flex-wrap bg-gray-200 mb-2 p-2" @drop="handleFileDragDrop" @dragover.prevent>
             <input 
               type="file" 
@@ -99,7 +99,7 @@
       </div>
 
       <!-- Right Card -->
-      <div v-if="previewProduct" class="w-full lg:w-1/3 border ml-10">
+      <div v-if="previewProduct" class="w-full border ml-10">
         <div class="w-full border p-2 previous-image">
           <img :src="productImgUrl" alt="" class="h-64 ml-auto mr-auto" />
         </div>

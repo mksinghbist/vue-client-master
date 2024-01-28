@@ -11,6 +11,7 @@ const store = createStore({
   state: {
     isAuthenticated: false,
     isLogin : false,
+    isAdmin : false,
     user : '',
     navRouter : [
       { name : "Home", link: '/home'},
@@ -30,6 +31,17 @@ const store = createStore({
       state.user = user;
       sessionStorage.setItem('userInfo',user);
     },
+    setAdminStatus(state, user) {
+      user = JSON.parse(user);
+      state.isAdmin = user.admin ? true : false;
+      if(state.isAdmin) {
+        state.navRouter = [
+          { name: "Dashboard", link: '/adminPanel' },
+          { name: "Produuct List", link: '/productlist' },
+          { name: "Product Add", link: '/productAdd' },
+        ]
+      }
+    },
   },
   actions : {
     checkAuthentication({ commit }) {
@@ -38,12 +50,15 @@ const store = createStore({
     },
     checkUserLogin({commit}) {
       const isUserLogin = sessionStorage.getItem('isUserLogin') === 'true';
-      console.log('isUserLogin in store --->', isUserLogin );
       commit('setIsLogin', isUserLogin);
     },
     getUser({commit}) {
       const userInfo = sessionStorage.getItem('userInfo');
       if(userInfo != null) commit('setUserData', userInfo);
+    },
+    checkUserAsAdmin({commit}) {
+      const userInfo = sessionStorage.getItem('userInfo');
+      if(userInfo != null) commit('setAdminStatus', userInfo);
     },
   }
 });
@@ -51,5 +66,6 @@ const store = createStore({
 store.dispatch('checkAuthentication');
 store.dispatch('checkUserLogin');
 store.dispatch('getUser');
+store.dispatch('checkUserAsAdmin');
 export default store;
 
