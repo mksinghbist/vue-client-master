@@ -100,7 +100,7 @@
 
       <!-- Right Card -->
       <div v-if="previewProduct" class="w-full lg:w-1/3 border ml-10">
-        <div class="w-full border p-2">
+        <div class="w-full border p-2 previous-image">
           <img :src="productImgUrl" alt="" class="h-64 ml-auto mr-auto" />
         </div>
         <div class="p-2">
@@ -115,6 +115,7 @@
         </div>
       </div>
     </div>
+    <AcLoader :loading="isLoading"></AcLoader>
   </div>
 </template>
 
@@ -122,9 +123,10 @@
 import { ref , onMounted } from 'vue';
 import Button from '../Button.vue'
 import { fileUpload , insertDataFromApi} from '@/services/apiService';
+import AcLoader from '../common/AcLoader.vue';
 export default {
   name: "productInsert",
-  components: { Button },
+  components: { Button, AcLoader },
   setup() {
     const productPrice = ref(0);
     const productQty = ref(0);
@@ -139,9 +141,25 @@ export default {
     const selectedProduct = ref('');
     const productUploadMsg = ref();
     const productUpload = ref(false);
+    const isLoading = ref(false);
 
+    const resetForm = () => {
+      productPrice.value = 0;
+      productQty.value = 0;
+      productDescription.value = '';
+      validationErrorPrice.value = false;
+      validationErrorQty.value = false;
+      validationErrorDescription.value = false;
+      previewProduct.value = false;
+      productTitle.value = '';
+      fileInput.value.value = '';
+      productImgUrl.value = '';
+      selectedProduct.value = '';
+      productUploadMsg.value = '';
+      productUpload.value = false;
+    }
     const checkProductUploadStatus = (status) => {
-
+      productUpload.value = true;
       if(status) {
         productUploadMsg.value = `<span class="text-green-700"> File Uploaded SuccessFully ...</span>`
       } 
@@ -150,34 +168,41 @@ export default {
       }
 
     } 
-    
+    const readImage = () => {
+      const files = fileInput.value.files;
+      if (files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          productImgUrl.value = e.target.result;
+        };
+        reader.readAsDataURL(files[0]);
+        checkProductUploadStatus(true);
+      }
+    };
     const triggerFileInput = () => {
       fileInput.value.click();
     };
 
     const handleFileChange = () => {
-      const files = fileInput.value.files;
-      uploadFiles(files);
+      readImage();
     }; 
     const handleFileDragDrop = (event) => {
       event.preventDefault();
-      const files = event.dataTransfer.files;
-      if (files.length > 0) {
-        uploadFiles(files);
+      fileInput.value = event.dataTransfer;
+      if(fileInput.value.files.length > 0) {
+        readImage();
       }
     };
-    const uploadFiles = async (files) => {
+    const uploadFiles = async () => {
       const formData = new FormData();
-      formData.append('file', files[0]);
+      formData.append('fileInput', fileInput.value.files[0]);
       try {
         const response = await fileUpload('products/upload', formData );
-        productImgUrl.value = process.env.VUE_APP_API_BASE_URL + '/products/img/' + response.filename
-        checkProductUploadStatus(true);
-        productUpload.value = true;
+        productImgUrl.value = response.downloadURL;
+        return response;
       } catch (error) {
-        productUpload.value = false;
-        checkProductUploadStatus(false);
         console.error('Error uploading image:', error);
+        return error;
       }
     };
 
@@ -196,26 +221,34 @@ export default {
 
     const submitForm = async () => {
       try {
-        var productPayload = {
-          productImgUrl : productImgUrl.value,
-          productTitle : productTitle.value,
-          productQty : productQty.value,
-          productPrice : productPrice.value,
-          productType: selectedProduct.value,
-          productDescription : productDescription.value,
-        }
-        const data = await insertDataFromApi('products/add', productPayload );
-        if(data.status == 'true' || data.status == true) {
-            console.log('adding success full -->', data)
+        if(productImgUrl.value) {
+          isLoading.value = true;
+          let imageUploadResponse = await uploadFiles();
+          if(!imageUploadResponse.status) throw new Error('Error uploading image. Server response:', imageUploadResponse); 
+          var productPayload = {
+            productImgUrl : imageUploadResponse.downloadURL,
+            productTitle : productTitle.value,
+            productQty : productQty.value,
+            productPrice : productPrice.value,
+            productType: selectedProduct.value,
+            productDescription : productDescription.value,
+          }
+          const data = await insertDataFromApi('products/add', productPayload );
+          if(data.status == 'true' || data.status == true) {
+            isLoading.value = false;
+            resetForm();
+          }
+        } else { 
+          isLoading.value = false;
+          throw new Error("User didn't selected any image");
         }
       } catch(error) {
-        console.log('adding success full -->', error)
+        console.log('adding success full -->', error);
+        isLoading.value = false;
       }
-      console.log('Product details -->', productPayload);
     };
     const checkPreviewProduct = (isPreviewStatus) => {
       previewProduct.value = isPreviewStatus ? false  : true;
-      console.log(isPreviewStatus , previewProduct.value);
     };
     onMounted(() => {
       fileInput.value = document.getElementById('fileInput');
@@ -241,7 +274,8 @@ export default {
       checkPreviewProduct,
       triggerFileInput,
       handleFileChange,
-      handleFileDragDrop
+      handleFileDragDrop,
+      isLoading,
     };
   },
 };

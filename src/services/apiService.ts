@@ -5,7 +5,6 @@ const setHeader = () => {
   const userInfoString = sessionStorage.getItem('userInfo');
   const userInfo = userInfoString ? JSON.parse(userInfoString) : null;
   const accessToken = userInfo?.token || '';
-  console.log(accessToken);
   // Set the default headers for all Axios requests
   axios.defaults.headers.common['Authorization'] = accessToken;
 }
@@ -74,7 +73,7 @@ export const fileUpload = async <T>(
       payload,
       {
         headers: {
-          'Content-Type': 'multipart/form-data', // Set content type to multipart/form-data
+          'Content-Type': 'multipart/form-data',
         },
       }
     );
