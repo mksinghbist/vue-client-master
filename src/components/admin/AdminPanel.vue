@@ -1,5 +1,5 @@
 <template>
-<div class="flex-grow text-gray-800">
+<div v-if="isAdmin" class="flex-grow text-gray-800">
     <main class="p-6 sm:p-10 space-y-6">
         <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
         <div class="mr-6">
@@ -86,6 +86,7 @@
 import { computed , ref, onMounted, onBeforeUnmount} from 'vue';
 import CustomTable from '../common/CustomTable.vue';
 import { fetchDataFromApi } from '@/services/apiService'; 
+import { useStore } from 'vuex';
 export default {
     name : 'AdminPanel',
     components : { CustomTable },
@@ -96,6 +97,7 @@ export default {
         const customerData = ref([]);
         const itemsPerPage = 4 ;
         const currentPage = ref(1);
+        const store = new useStore();
         const handlePageChanged = (cPageValue) => {
             currentPage.value = cPageValue;
         }
@@ -130,6 +132,10 @@ export default {
         const isScreenlg = computed(() => {
             return screenWidth.value > 768;
         });
+        const isAdmin = computed(() => {
+            console.log('admin  checking -->', store.state.isAdmin);
+           return store.state.isAdmin
+        });
 
         return {
             isScreenlg,
@@ -138,6 +144,7 @@ export default {
             itemsPerPage,
             handlePageChanged,
             tableDataLength,
+            isAdmin
         };
     }
 }

@@ -111,7 +111,7 @@
             <h3>{{ productDescription }}</h3>
         </div>
         <div class="p-4 flex justify-end">
-          <Button class="ml-5" bType="text">Buy</Button>
+          <Button class="ml-5" buttonType="text">Buy</Button>
         </div>
       </div>
     </div>

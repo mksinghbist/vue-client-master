@@ -48,14 +48,15 @@ setup () {
         isOpen.value = !isOpen.value
     };
     const userLogout = () => {
-        sessionStorage.setItem('userInfo', '');
-        sessionStorage.setItem('isAuthenticated', false);
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('isAuthenticated');
         store.commit('setAuthentication', false);
         store.commit('setIsLogin', false);
+        store.commit('resetState');
 
     };
     const isLoginChecked  = () => {
-      var isLoginValue = sessionStorage.getItem('isAuthenticated');
+      var isLoginValue = localStorage.getItem('isAuthenticated');
       if(!isLoginValue == 'true') {
         router.push('/login');
       }

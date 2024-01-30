@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 
 const API_BASE_URL = process.env.VUE_APP_API_BASE_URL; 
 const setHeader = () => {
-  const userInfoString = sessionStorage.getItem('userInfo');
+  const userInfoString = localStorage.getItem('userInfo');
   const userInfo = userInfoString ? JSON.parse(userInfoString) : null;
   const accessToken = userInfo?.token || '';
   // Set the default headers for all Axios requests

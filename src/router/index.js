@@ -9,7 +9,6 @@ import ProductAdd from '../components/products/ProductInsert.vue';
 import ProductList from '../components/products/ProductList.vue'; 
 import AdminPanel from '../components/admin/AdminPanel.vue'
 import store from '../store';
-//import jwtToken from '../common/user'
 
 const routes = [
   {
@@ -53,7 +52,7 @@ const routes = [
   {
     path: '/productAdd',
     name: 'ProductAdd',
-    component: ProductAdd,
+    component: store.state.isAdmin ? ProductAdd : Home,
     meta: {
       admin: true,
     }, 
@@ -61,7 +60,7 @@ const routes = [
   {
     path: '/productlist',
     name: 'ProductList',
-    component: ProductList,
+    component: store.state.isAdmin ? ProductList : Home,
     meta: {
       admin: true,
     },
@@ -69,7 +68,7 @@ const routes = [
   {
     path: '/adminPanel',
     name: 'AdminPannel',
-    component: AdminPanel,
+    component: store.state.isAdmin ? AdminPanel : Home,
     meta: {
       admin: true,
     }, 

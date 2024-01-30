@@ -16,7 +16,7 @@ export default {
     const router = useRouter();
     const store = useStore();
     const checkUserLogin = () => {
-      var isLoginValue = sessionStorage.getItem('isAuthenticated');
+      var isLoginValue = localStorage.getItem('isAuthenticated');
       if (isLoginValue == 'false' || isLoginValue == null || isLoginValue == undefined) {
         store.commit('setIsLogin', false);
         router.push('/login');

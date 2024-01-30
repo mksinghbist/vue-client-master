@@ -31,7 +31,7 @@ export default {
         return store.state.isLogin;
     })
     const fetchData = () => {
-      var isLoginValue = sessionStorage.getItem('isAuthenticated');
+      var isLoginValue = localStorage.getItem('isAuthenticated');
       if (isLoginValue == 'false' || isLoginValue == null || isLoginValue == undefined) {
         store.commit('setIsLogin', false);
         router.push('/login');

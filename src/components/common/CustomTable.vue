@@ -1,15 +1,17 @@
 <template>
   <div>
-    <table class="min-w-full bg-white border border-gray-300">
-      <thead>
-        <tr>
-          <slot name="tableHeader"></slot>
-        </tr>
-      </thead>
-      <tbody>
-        <slot name="tableBody"></slot>
-      </tbody>
-    </table>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-300">
+        <thead>
+          <tr>
+            <slot name="tableHeader"></slot>
+          </tr>
+        </thead>
+        <tbody>
+          <slot name="tableBody"></slot>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Pagination -->
     <div v-if="tableDataLength !== 0 && itemsPerPage !== 0" class="mt-4 flex justify-end">
@@ -70,31 +72,3 @@ export default {
   },
 };
 </script>
-
-<style>
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th{
-    font-size: 32;
-    font-weight: 600;
-    padding: 8px;
-  }
-  th,td {
-    border: 1px solid #CCC;
-    color: #000;
-    text-align: center;
-  }
-  td {
-    font-size: 16px;
-    font-weight: 400;
-  }
-  th, td {
-    min-width: 100px; /* Set your desired minimum width */
-  }
-  th {
-    background-color: #f2f2f2;
-  }
- 
-</style>

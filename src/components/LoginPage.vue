@@ -106,13 +106,14 @@ export default {
         })
         isLoading.value = false;
         if(data.status == 'true' || data.status == true) {
+          store.commit('setAdminStatus', JSON.stringify(data));
           store.commit('setUserData', JSON.stringify(data));
-          sessionStorage.setItem('isAuthenticated', true);
+          localStorage.setItem('isAuthenticated', true);
           store.commit('setAuthentication', true);
           store.commit('setIsLogin', true);
-          store.commit('setAdminStatus', JSON.stringify(data));
           
           isSignup.value = false;
+          window.location.reload();
           router.push('/');
         } else {
           userEmail.value = '';
@@ -121,16 +122,13 @@ export default {
           isError.value = true;
         }
       } catch (error) {
-        sessionStorage.setItem('isAuthenticated', false);
+        localStorage.setItem('isAuthenticated', false);
         errMessage.value = '';
         isError.value = true;
-        //isLoading.value = false;
       }
     };
     const openSignUp = () => {
-      //store.commit('setIsLogin', true);
       isSignup.value = true;
-      console.log("isSingup -->", isSignup.value );
     }
     const isLogined = computed(() => {
       return store.state.isLogin;
