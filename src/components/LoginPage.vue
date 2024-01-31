@@ -110,11 +110,11 @@ export default {
           store.commit('setUserData', JSON.stringify(data));
           localStorage.setItem('isAuthenticated', true);
           store.commit('setAuthentication', true);
-          store.commit('setIsLogin', true);
-          
+          store.commit('setIsLogin', true);          
           isSignup.value = false;
-          window.location.reload();
+          
           router.push('/');
+          window.location.reload();
         } else {
           userEmail.value = '';
           userPassword.value = '';

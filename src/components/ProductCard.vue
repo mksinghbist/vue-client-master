@@ -1,14 +1,14 @@
 <template>
-    <div class="bg-white rounded-lg min-h-60 p-2">
+    <div class="bg-white rounded-lg min-h-32 md:min-h-40 lg:min-h-60 p-2">
         <figure class="mb-1">
-            <img :src="productImgUrl" alt="" class="h-64 ml-auto mr-auto" />
+            <img :src="productImgUrl" alt="" class="h-28 md:h-40 lg:h-60 ml-auto mr-auto" />
         </figure>
         <div class="rounded-lg p-2 bg-gray-600 flex flex-col">
             <div>
-                <h5 class="text-white text-2xl font-bold leading-none">
+                <h5 class="text-white text-base font-bold leading-none">
                 {{ productTitle }}
                 </h5>
-                <span class="text-xs text-gray-400 leading-none">{{ productDesc }}</span>
+                <span class="text-sm text-gray-400 leading-none">{{ productDesc }}</span>
             </div>
             <div class="flex items-center">
                 <div class="text-lg text-white font-light">
