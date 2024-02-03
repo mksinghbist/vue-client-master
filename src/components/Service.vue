@@ -7,11 +7,7 @@
               </h1>
           </div>
           <div class="w-full md:w-1/2 lg:w-1/4 pl-5 pr-5 mb-5 lg:pl-2 lg:pr-2" v-for="(product, index) in newProductList" :key="index">
-            <ProductCardVue :productTitle="product.productTitle" :productPrice="product.productPrice" 
-            :productQty="product.productQty" 
-            :productImgUrl="product.productImgUrl" 
-            :productDesc="product.productDesc">
-            </ProductCardVue>
+            <ProductCardVue :productObject="product"></ProductCardVue>
           </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ const getDefaultState = () => {
       { name: "About", link: '/about' },
       { name: "Contact", link: '/contact' },
     ],
+    customerCart: { cartEntries: []},
   };
 }
 const store = createStore({
@@ -30,6 +31,7 @@ const store = createStore({
       { name : "About", link: '/about'},
       { name : "Contact", link: '/contact'}, 
     ],
+    customerCart: { cartEntries: []}, 
   },
   mutations: {
     resetState(state) {
@@ -64,6 +66,10 @@ const store = createStore({
         ];
       }
     },
+    addToCart(state, carts) {
+      state.customerCart.cartEntries = carts ? carts : [];
+      localStorage.setItem('customerCart',JSON.stringify(state.customerCart));
+    },
   },
   actions : {
     checkAuthentication({ commit }) {
@@ -82,6 +88,18 @@ const store = createStore({
       const userInfo = localStorage.getItem('userInfo');
       if(userInfo != null) commit('setAdminStatus', userInfo);
     },
+    checkCustomerCart({commit}) {
+      const useCarts = localStorage.getItem('customerCart');
+      if(useCarts != null && useCarts != undefined) {
+        try {
+          var initialCart = JSON.parse(useCarts);
+          console.log(initialCart.cartEntries)
+          commit('addToCart', initialCart.cartEntries);
+        } catch(error) {
+          commit('addToCart', []);
+        }
+      }
+    }, 
   }
 });
 
@@ -89,5 +107,7 @@ store.dispatch('checkAuthentication');
 store.dispatch('checkUserLogin');
 store.dispatch('getUser');
 store.dispatch('checkUserAsAdmin');
+store.dispatch('checkCustomerCart');
+
 export default store;
 
