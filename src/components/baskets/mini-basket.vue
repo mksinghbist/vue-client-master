@@ -18,7 +18,7 @@
                                 <img :src="product.productImgUrl" alt="" class="object-cover w-full h-full">
                             </div>
                             <div class="flex-1 ml-2">
-                                <p class="text-sm font-semibold">{{ product.productTitle }} {{ product.productTitle }} {{ product.productTitle }}</p>
+                                <p class="text-sm font-semibold">{{ product.productTitle }}</p>
                                 <div class="flex justify-between items-center">
                                     <!-- Price Section -->
                                     <div class="price-section">
