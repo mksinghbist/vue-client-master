@@ -30,6 +30,14 @@ self.addEventListener('install', (event) => {
 
 
 self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    // Handle navigation requests differently
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match('/offline.html'))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((response) => {
       // Cache hit - return the response from the cache
@@ -55,6 +63,7 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(

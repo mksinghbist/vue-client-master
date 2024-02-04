@@ -1,22 +1,25 @@
 <template>
-  <div v-if='!isLogined && !isSignup' class="flex items-center min-h-screen bg-gray-100 lg:justify-center">
+  <div v-if='!isLogined && !isSignup' class="flex items-center justify-center min-h-screen bg-gray-100 lg:justify-center">
     <div
       class="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md"
     >
       <div
         class="p-4 py-6 text-white bg-blue-500 md:w-80 md:flex-shrink-0 md:flex md:flex-col md:items-center md:justify-evenly"
       >
-        <div class="my-3 text-4xl font-bold tracking-wider text-center">
+        <div class="flex justify-center item-center text-green-500 text-xl tracking-wider text-center">
+            <img class="w-16 h-16" src="../assets/LocalBazZar.png" />
+        </div>
+        <div class="mb-2 text-2xl font-bold tracking-wider text-center">
           <a href="/"><strong>Local Bazzar</strong></a>
         </div>
-        <p class="mt-6 font-normal text-center text-gray-300 md:mt-0">
-          On Local Bazzar  Platform Provide Best Quality and Delivery on time
+        <p class="mt-2 text-base text-center text-gray-300 md:mt-0">
+          Ensure the best quality and on-time delivery on our local bazar platform.
         </p>
-        <p class="flex flex-col items-center justify-center mt-10 text-center">
+        <p class="flex flex-col items-center justify-center mt-5 text-center">
           <span>Don't have an account?</span>
           <router-link to="/signup" class="underline hover:text-green-500" @click="openSignUp()">Get Create!</router-link> 
         </p>
-        <p class="mt-6 text-sm text-center text-gray-300">
+        <p class="mt-4 text-sm text-center text-gray-300">
           Read our <a href="#" class="underline">terms</a> and <a href="#" class="underline">conditions</a>
         </p>
       </div>
@@ -114,7 +117,6 @@ export default {
           isSignup.value = false;
           
           router.push('/');
-          window.location.reload();
         } else {
           userEmail.value = '';
           userPassword.value = '';

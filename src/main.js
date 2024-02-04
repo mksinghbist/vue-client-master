@@ -13,7 +13,6 @@ let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault();
   deferredPrompt = event;
-  console.log('Installation prompt received');
 });
 
 // Expose deferredPrompt globally so it can be used in your Vue components

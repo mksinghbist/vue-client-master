@@ -16,7 +16,7 @@
             </router-link>
         </div>
         <div class="mb-2">
-            <SearchBar></SearchBar>
+            <SearchBar v-if="!isAdmin"></SearchBar>
             <ul
                 class="md:flex md:item-end md:px-0 px-3 md:pb-0 pb-10 md:static absolute bg-gray-900 md:w-auto w-1/2 top-14 duration-700 ease-in opacity-90"
                 :class="[isOpen ? 'left-0' : 'left-[-100%]']"
@@ -27,7 +27,7 @@
             </ul>
         </div>
         <div class="flex justify-between items-center">
-            <MiniBasket></MiniBasket>     
+            <MiniBasket v-if="!isAdmin"></MiniBasket>     
             <AcButton class="pl-2" @click="userLogout()">
                 <span class="text-2xl hover:text-red-500">Logout</span>
             </AcButton>
@@ -52,6 +52,9 @@ setup () {
     const store = useStore();
     const isLogined = computed(() => {
         return store.state.isLogin;
+    });
+    const isAdmin = computed(() => {
+        return store.state.isAdmin;
     });
     const router = useRouter();
     var Links = computed(() => {
@@ -85,6 +88,7 @@ setup () {
         MenuOpen,
         userLogout,
         isLogined,
+        isAdmin
     }
 }
 }

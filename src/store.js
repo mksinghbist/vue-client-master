@@ -93,7 +93,6 @@ const store = createStore({
       if(useCarts != null && useCarts != undefined) {
         try {
           var initialCart = JSON.parse(useCarts);
-          console.log(initialCart.cartEntries)
           commit('addToCart', initialCart.cartEntries);
         } catch(error) {
           commit('addToCart', []);

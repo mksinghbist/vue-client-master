@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 h-screen">
+  <div class="m-2 md:m-0 lg:m-0 bg-gray-100 h-screen">
     <div v-if="isLogined">
         <Navbar></Navbar> 
         <div class="mt-20">

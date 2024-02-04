@@ -85,6 +85,7 @@ router.afterEach(() => {
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.state.isAuthenticated;
   if (to.matched.some((record) => record.meta.requiresAuth)) {
+    console.log('I am here 1');
     if (!isAuthenticated) {
       if(to.name == "Signup") {
         next();
@@ -98,7 +99,11 @@ router.beforeEach((to, from, next) => {
     }
   }
   else {
-    next();
+    if(to.fullPath == '/login' && isAuthenticated && store.state.isLogin) {
+      next('/');
+    } else {
+      next();
+    }
   }
 });
 export default router

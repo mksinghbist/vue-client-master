@@ -1,5 +1,9 @@
 <template>
-    <div @mouseover="showBasketModal" @mouseout="hideBasketModal" class="basket-container">
+      <div
+        @mouseover="isSmallScreen ? null : showBasketModal"
+        @mouseout="isSmallScreen ? null : hideBasketModal"
+        class="basket-container"
+        >
         <AcButton @click="redirectToCart" id="basket" class="">
             <span>
                 <i class="fas fa-shopping-basket text-2xl"></i>
@@ -59,7 +63,7 @@
   </template>
   
   <script>
-  import { ref, computed } from 'vue';
+  import {watchEffect, ref, computed, onMounted } from 'vue';
   import AcButton from '../Button.vue';
   import { useStore } from 'vuex';
   export default {
@@ -68,6 +72,8 @@
     setup () {
         const store =  useStore();
         const isBasketModalVisible = ref(false);
+        const isSmallScreen = ref(false);
+
         const products = computed(() => {
             return store.state.customerCart.cartEntries;
         });
@@ -81,13 +87,28 @@
              return products.value.reduce((total, product) => total + parseFloat(product.productPrice.replace('$', '')), 0).toFixed(2);
         });
         const checkout = () => {
-        // Implement your checkout logic here
-        alert('Checkout clicked!');
+            // Implement your checkout logic here
+            alert('Checkout clicked!');
         };
         const redirectToCart = () => {
             // Implement your redirection logic here
             alert('Checkout clicked!');
         };
+
+        const checkScreenWidth = () => {
+            isSmallScreen.value = window.innerWidth <= 600;
+            console.log('isSmallScreen.value -->', isSmallScreen.value)
+        };
+
+        // Watch for changes in screen width
+        watchEffect(() => {
+            checkScreenWidth();
+        });
+
+        // Listen for screen width changes
+        onMounted(() =>{
+            window.addEventListener('resize', checkScreenWidth);
+        })
         return {
             isBasketModalVisible,
             showBasketModal,
@@ -95,7 +116,8 @@
             calculateTotalPrice,
             checkout,
             products,
-            redirectToCart
+            redirectToCart,
+            isSmallScreen
         }
     }
   };
