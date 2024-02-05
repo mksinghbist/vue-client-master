@@ -15,35 +15,50 @@
                     <span class="rupee-icon"></span>{{ productObject.productPrice }}
                 </div>
             </div>
-            <div class="flex items-right">
-                <AcButton buttonType="text" class="flex ml-auto w-15 h-10 px-2" @click="addProduct">  
-                    <i class="fas fa-plus text-xl"></i> 
+            <div v-if="!isAddButtonClick && intialQty == 0" class="flex items-end justify-end">
+                <AcButton  buttonType="text" class="flex ml-auto w-15 h-10 px-2" @click="addProduct">  
+                    Add to Cart
                 </AcButton>
+            </div>
+            <div v-if="isAddButtonClick || intialQty != 0 " class="flex items-end justify-end">
+                <MiniBasketPicker 
+                    :productId="productObject.productId"
+                    :intialQty="intialQty"></MiniBasketPicker>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { ref } from 'vue';
     import AcButton from './Button.vue';
     import carts from '../common/carts'
+    import MiniBasketPicker from '../components/baskets/min-basket-picker.vue'
     export default {
         name: 'ProductCard',
-        components: { AcButton },
+        components: { AcButton, MiniBasketPicker },
         props: {
             productObject : {
                 type: Object,
                 default: () => {
                     return {};
                 }
-            }
+            }, 
         },
         setup(props) {
+            const isAddButtonClick = ref(false);
+            const intialQty = ref(carts.getProduct(props.productObject.productId));
             const addProduct = () => {
-                carts.addToCart(props.productObject)
+                isAddButtonClick.value = true;
+                var newProduct = props.productObject;
+                newProduct.userEnterQty = 1;
+                intialQty.value = 1;
+                carts.addToCart(newProduct)
             }
             return {
                 addProduct,
+                isAddButtonClick,
+                intialQty
             }
 
         }

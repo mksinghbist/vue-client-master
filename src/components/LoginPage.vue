@@ -74,7 +74,7 @@
       <RouterView></RouterView>
   </div>
   <div v-if="isSignup">
-      <div :class="{ 'mt-0': isSignup , 'mt-20' : !isSignup }">
+      <div :class="{ 'mt-0': isSignup , 'mt-40' : !isSignup }">
         <RouterView></RouterView>
       </div>
   </div>

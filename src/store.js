@@ -12,6 +12,7 @@ const getDefaultState = () => {
     isLogin: false,
     isAdmin: false,
     user: '',
+    isMobileDevice: false,
     navRouter: [
       { name: "Home", link: '/home' },
       { name: "About", link: '/about' },
@@ -26,6 +27,7 @@ const store = createStore({
     isLogin : false,
     isAdmin : false,
     user : '',
+    isMobileDevice: false,
     navRouter : [
       { name : "Home", link: '/home'},
       { name : "About", link: '/about'},
@@ -70,6 +72,10 @@ const store = createStore({
       state.customerCart.cartEntries = carts ? carts : [];
       localStorage.setItem('customerCart',JSON.stringify(state.customerCart));
     },
+    setMobileDevice(state, isSmallDevice){
+      state.isMobileDevice = isSmallDevice;
+      localStorage.setItem('customerCart',JSON.stringify(state.customerCart));
+    }
   },
   actions : {
     checkAuthentication({ commit }) {
@@ -99,6 +105,10 @@ const store = createStore({
         }
       }
     }, 
+    checkUserDevice({commit}) {
+        console.log(window.innerWidth);
+      commit('setMobileDevice', window.innerWidth <= 765);
+    },
   }
 });
 
@@ -107,6 +117,7 @@ store.dispatch('checkUserLogin');
 store.dispatch('getUser');
 store.dispatch('checkUserAsAdmin');
 store.dispatch('checkCustomerCart');
+store.dispatch('checkUserDevice');
 
 export default store;
 

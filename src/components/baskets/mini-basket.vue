@@ -1,16 +1,34 @@
 <template>
       <div
-        @mouseover="isSmallScreen ? null : showBasketModal"
-        @mouseout="isSmallScreen ? null : hideBasketModal"
         class="basket-container"
         >
-        <AcButton @click="redirectToCart" id="basket" class="">
+        <AcButton
+            v-if="!isMobileDevice"
+            id="basket big" 
+            class=""     
+            @mouseover="showBasketModal"
+            @mouseout="hideBasketModal"
+            @click="redirectToCart"
+        >
             <span>
                 <i class="fas fa-shopping-basket text-2xl"></i>
             </span>
             <span class="pl-2"><span class="rupee-icon"></span>{{calculateTotalPrice}}</span>
-            <span class="pl-4">1</span>
+            <span class="pl-4">{{ totalProductQty }}</span>
         </AcButton>
+
+        <AcButton
+            v-if="isMobileDevice"
+            id="basket small" 
+            class=""     
+            @click="redirectToCart"
+        >
+            <span>
+                <sup class="text-xl font-bold">{{ totalProductQty }}</sup>
+                <i class="fas fa-shopping-basket text-2xl"></i>
+            </span>
+        </AcButton>
+
         <!-- Basket Modal -->
         <div v-show="isBasketModalVisible" class="basket-modal w-80">
             <div class="p-4 rounded-lg w-full">
@@ -30,12 +48,12 @@
                                             <span class="rupee-icon"></span>
                                             {{ product.productPrice }}
                                         </p>
-                                        <span class="text-xs text-black"> Qty: 2 </span>
+                                        <span class="text-xs text-black"> Qty: {{ product.userEnterQty }} </span>
                                     </div>
 
                                     <!-- Price Total -->
                                     <div class="priceTotal">
-                                        <span class="text-base text-black font-bold"> {{ product.productPrice * 2 }} </span>
+                                        <span class="text-base text-black font-bold"> {{ product.productPrice * product.userEnterQty }} </span>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +81,7 @@
   </template>
   
   <script>
-  import {ref, computed, onMounted } from 'vue';
+  import {ref, computed } from 'vue';
   import AcButton from '../Button.vue';
   import { useStore } from 'vuex';
   export default {
@@ -72,24 +90,22 @@
     setup () {
         const store =  useStore();
         const isBasketModalVisible = ref(false);
-        const isSmallScreen =  ref(window.innerWidth <= 600); 
         const products = computed(() => {
             return store.state.customerCart.cartEntries;
         });
+        
         const showBasketModal = () => {
-            console.log('calling showBasket on mouse');
-            if (!isSmallScreen.value) {
-                isBasketModalVisible.value = true;
-            }
+            isBasketModalVisible.value = true; 
         };
 
         const hideBasketModal = () => {
-            if (!isSmallScreen.value) {
-                isBasketModalVisible.value = false;
-            }
+            isBasketModalVisible.value = false;
         };
         const calculateTotalPrice = computed(() => {
-             return products.value.reduce((total, product) => total + parseFloat(product.productPrice.replace('$', '')), 0).toFixed(2);
+             return products.value.reduce((total, product) => total + parseFloat(product.productPrice.replace('$', '') * parseFloat(product.userEnterQty)), 0).toFixed(2);
+        });
+        const totalProductQty = computed(() => {
+             return products.value.reduce((total, product) => total + parseFloat(product.userEnterQty), 0);
         });
         const checkout = () => {
             // Implement your checkout logic here
@@ -100,14 +116,11 @@
             alert('Checkout clicked!');
         };
 
-        const checkScreenWidth = () => {
-            isSmallScreen.value = window.innerWidth <= 600;
-        };
+        const isMobileDevice = computed(() => {
+            console.log('checkiing size inside min-basket',store.state.isMobileDevice);
+           return store.state.isMobileDevice
+        });
 
-        // Listen for screen width changes
-        onMounted(() =>{
-            window.addEventListener('resize', checkScreenWidth);
-        })
         return {
             isBasketModalVisible,
             showBasketModal,
@@ -116,7 +129,8 @@
             checkout,
             products,
             redirectToCart,
-            isSmallScreen
+            isMobileDevice,
+            totalProductQty
         }
     }
   };

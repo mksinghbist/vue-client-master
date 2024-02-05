@@ -29,14 +29,14 @@
                 <router-link :to="link.link" @click="MenuOpen()" class="text-xl hover:text-green-500">{{ link.name }}</router-link>
                 </li>
                 <AcButton v-if="isMobileDevice" class="pl-2" @click="userLogout()">
-                    <span class="text-2xl hover:text-red-500">Logout</span>
+                    <span class="text-xl"><i class="fa-solid fa-power-off text-red-700"></i></span>
                 </AcButton>
             </ul>
         </div>
         <div v-if="!isMobileDevice" class="flex justify-between items-center">
             <MiniBasket v-if="!isAdmin"></MiniBasket>     
             <AcButton class="pl-2" @click="userLogout()">
-                <span class="text-2xl hover:text-red-500">Logout</span>
+                <span class="text-2xl"><i class="fa-solid fa-power-off text-red-700"></i></span>
             </AcButton>
         </div>
     </div>
@@ -57,7 +57,6 @@ props: {},
 setup () {
     var isOpen = ref(false);
     const store = useStore();
-    const isSmallScreen =  ref(window.innerWidth <= 765); 
     const isLogined = computed(() => {
         return store.state.isLogin;
     });
@@ -87,16 +86,10 @@ setup () {
       }
     } 
 
-    const checkScreenWidth = () => {
-        console.log(window.innerWidth <= 765, window.innerWidth);
-        isSmallScreen.value = window.innerWidth <= 765;
-    };
-
-    const isMobileDevice = computed(() => isSmallScreen.value);
+    const isMobileDevice = computed(() => store.state.isMobileDevice);
 
     onMounted( () => {
         isLoginChecked(); 
-        window.addEventListener('resize', checkScreenWidth);
     })
     return {
         Links,
