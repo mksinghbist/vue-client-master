@@ -1,21 +1,25 @@
 <template>
-    <div class="bg-gray-900 text-gray-100 py-3.5 px-6 shadow md:flex justify-between item-center fixed top-0 left-0 right-0 z-[1000]">
-        <div>
-            <span @click="MenuOpen()" class="absolute md:hidden left-6 top-1.5 cursor-pointer text-4xl">
+    <div  class="bg-gray-900 text-gray-100 py-3.5 px-6 shadow md:flex justify-between item-center fixed top-0 left-0 right-0 z-[1000]">
+        <div class="flex items-center justify-between">
+            <span @click="MenuOpen()" class="md:hidden cursor-pointer text-4xl">
                 <i :class="[isOpen ? 'bi bi-x' : 'bi bi-filter-left']"></i>
             </span>
-            <router-link to="/" class="sm:left-10">
-                <div class="flex item-center cursor-pointer">
-                    <span class="text-green-500 text-xl mr-1 aspect-square mix-blend-hard-light">
-                        <img class="w-10" src="../assets/LocalBazZar.png" />
-                    </span>
-                    <h1 class="text-xl mt-[5px]">
-                        <strong>Local Bazzar</strong>
-                    </h1>
-                </div>
+
+            <router-link to="/" class="flex items-center">
+                <span class="text-green-500 text-xl mr-1 aspect-square mix-blend-hard-light">
+                    <img class="w-10" src="../assets/LocalBazZar.png" />
+                </span>
+                <h1 class="text-xl mt-[5px]">
+                    <strong>Local Bazzar</strong>
+                </h1>
             </router-link>
+
+            <span v-if="isMobileDevice" class="flex items-center cursor-pointer">
+                <MiniBasket v-if="!isAdmin"></MiniBasket> 
+            </span>
         </div>
-        <div class="mb-2">
+
+        <div :class="isMobileDevice ? 'my-2' : 'mb-2'">
             <SearchBar v-if="!isAdmin"></SearchBar>
             <ul
                 class="md:flex md:item-end md:px-0 px-3 md:pb-0 pb-10 md:static absolute bg-gray-900 md:w-auto w-1/2 top-14 duration-700 ease-in opacity-90"
@@ -24,9 +28,12 @@
                 <li class="md:mr-4 md:my-0 my-6" v-for="link in Links" :key="link.id">
                 <router-link :to="link.link" @click="MenuOpen()" class="text-xl hover:text-green-500">{{ link.name }}</router-link>
                 </li>
+                <AcButton v-if="isMobileDevice" class="pl-2" @click="userLogout()">
+                    <span class="text-2xl hover:text-red-500">Logout</span>
+                </AcButton>
             </ul>
         </div>
-        <div class="flex justify-between items-center">
+        <div v-if="!isMobileDevice" class="flex justify-between items-center">
             <MiniBasket v-if="!isAdmin"></MiniBasket>     
             <AcButton class="pl-2" @click="userLogout()">
                 <span class="text-2xl hover:text-red-500">Logout</span>
@@ -50,6 +57,7 @@ props: {},
 setup () {
     var isOpen = ref(false);
     const store = useStore();
+    const isSmallScreen =  ref(window.innerWidth <= 765); 
     const isLogined = computed(() => {
         return store.state.isLogin;
     });
@@ -79,8 +87,16 @@ setup () {
       }
     } 
 
+    const checkScreenWidth = () => {
+        console.log(window.innerWidth <= 765, window.innerWidth);
+        isSmallScreen.value = window.innerWidth <= 765;
+    };
+
+    const isMobileDevice = computed(() => isSmallScreen.value);
+
     onMounted( () => {
         isLoginChecked(); 
+        window.addEventListener('resize', checkScreenWidth);
     })
     return {
         Links,
@@ -88,7 +104,8 @@ setup () {
         MenuOpen,
         userLogout,
         isLogined,
-        isAdmin
+        isAdmin,
+        isMobileDevice,
     }
 }
 }

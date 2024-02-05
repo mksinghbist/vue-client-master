@@ -9,10 +9,14 @@ const urlsToCache = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
+      if (!cache) {
+        throw new Error('Failed to open cache');
+      }
+
       const cachePromises = urlsToCache.map((url) => {
         return fetch(url)
           .then((response) => {
-            // Check if the request was successful
+
             if (!response.ok) {
               throw new Error(`Failed to fetch resource: ${url}`);
             }
@@ -28,10 +32,8 @@ self.addEventListener('install', (event) => {
   );
 });
 
-
 self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
-    // Handle navigation requests differently
     event.respondWith(
       fetch(event.request).catch(() => caches.match('/offline.html'))
     );
@@ -40,18 +42,19 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.match(event.request).then((response) => {
-      // Cache hit - return the response from the cache
       if (response) {
         return response;
       }
 
       return fetch(event.request).then((fetchResponse) => {
-        // Check if we received a valid response
-        if (!fetchResponse || fetchResponse.status !== 200 || fetchResponse.type !== 'basic') {
+        if (
+          !fetchResponse ||
+          fetchResponse.status !== 200 ||
+          fetchResponse.type !== 'basic'
+        ) {
           return fetchResponse;
         }
 
-        // Clone the response as it can only be consumed once
         const responseToCache = fetchResponse.clone();
 
         caches.open(CACHE_NAME).then((cache) => {
@@ -63,7 +66,6 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
-
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
@@ -77,4 +79,8 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
+});
+
+self.addEventListener('beforeunload', () => {
+  self.registration.unregister();
 });

@@ -63,7 +63,7 @@
   </template>
   
   <script>
-  import {watchEffect, ref, computed, onMounted } from 'vue';
+  import {ref, computed, onMounted } from 'vue';
   import AcButton from '../Button.vue';
   import { useStore } from 'vuex';
   export default {
@@ -72,16 +72,21 @@
     setup () {
         const store =  useStore();
         const isBasketModalVisible = ref(false);
-        const isSmallScreen = ref(false);
-
+        const isSmallScreen =  ref(window.innerWidth <= 600); 
         const products = computed(() => {
             return store.state.customerCart.cartEntries;
         });
         const showBasketModal = () => {
-            isBasketModalVisible.value = true;
+            console.log('calling showBasket on mouse');
+            if (!isSmallScreen.value) {
+                isBasketModalVisible.value = true;
+            }
         };
-        const hideBasketModal =() => {
-          isBasketModalVisible.value = false;
+
+        const hideBasketModal = () => {
+            if (!isSmallScreen.value) {
+                isBasketModalVisible.value = false;
+            }
         };
         const calculateTotalPrice = computed(() => {
              return products.value.reduce((total, product) => total + parseFloat(product.productPrice.replace('$', '')), 0).toFixed(2);
@@ -97,13 +102,7 @@
 
         const checkScreenWidth = () => {
             isSmallScreen.value = window.innerWidth <= 600;
-            console.log('isSmallScreen.value -->', isSmallScreen.value)
         };
-
-        // Watch for changes in screen width
-        watchEffect(() => {
-            checkScreenWidth();
-        });
 
         // Listen for screen width changes
         onMounted(() =>{
