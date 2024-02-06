@@ -44,7 +44,7 @@
   
 
 <script>
-import { ref , onMounted, computed} from 'vue';
+import { ref , onMounted, computed } from 'vue';
 import AcButton from './Button.vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router'
@@ -90,6 +90,7 @@ setup () {
 
     onMounted( () => {
         isLoginChecked(); 
+        window.addEventListener('resize', store.commit('setMobileDevice', window.innerWidth <= 765));
     })
     return {
         Links,

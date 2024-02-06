@@ -41,6 +41,7 @@ export default {
     };
     onMounted(() => {
       fetchData();
+      window.addEventListener('resize', store.commit('setMobileDevice', window.innerWidth <= 765));
     });
 
     return {

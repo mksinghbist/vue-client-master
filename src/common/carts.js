@@ -22,9 +22,7 @@ class Carts {
   updateQty(productId,newQty) {
     const productIndex = this.cartEntries.findIndex(entry => entry.productId === productId);
 
-    // Check if the product is found
     if (productIndex !== -1) {
-      // Update the productQty
       this.cartEntries[productIndex].userEnterQty = newQty; 
       store.commit('addToCart', this.cartEntries);
     } else {
@@ -35,6 +33,18 @@ class Carts {
     const product = this.cartEntries.find(entry => entry.productId === productId);
     return product?.userEnterQty ? product?.userEnterQty : 0;
   }
+  removeProductCarts(productId) {
+    try {
+      const productIndex = this.cartEntries.findIndex(entry => entry.productId === productId);
+      if (productIndex !== -1) {
+        this.cartEntries.splice(productIndex, 1);
+        store.commit('addToCart', this.cartEntries);
+      }
+    } catch(error) {
+      console.error('error not found in the cart.', error);
+    }
+  }
+
 }
 
 const carts = new Carts();

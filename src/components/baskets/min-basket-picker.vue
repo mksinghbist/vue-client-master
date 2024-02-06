@@ -7,7 +7,7 @@
   
       <!-- Show decrement button if input value is greater than 1 -->
       <AcButton v-else class="pl-2" @click="decrement">
-        <span class="text-sm"><i class="fa-solid fa-minus text-blue-700"></i></span>
+        <span class="text-sm"><i class="fa-solid fa-minus text-white-900"></i></span>
       </AcButton>
   
       <!-- Input field for quantity -->
@@ -15,7 +15,7 @@
   
       <!-- Increment button -->
       <AcButton @click="increment">
-        <span class="text-sm"><i class="fa-solid fa-plus text-blue-500"></i></span>
+        <span class="text-sm"><i class="fa-solid fa-plus text-white-900"></i></span>
       </AcButton>
     </div>
   </template>
@@ -37,12 +37,12 @@
                 default: '',
             }
         },
-        setup(props) {
+        setup(props,{emit}) {
             
             const inputValue = ref(props.intialQty);
             const deleteProduct = () =>{
-                // Handle delete logic
-                console.log('Deleting product');
+                carts.removeProductCarts(props.productId);
+                emit('removeProduct', 0);
             };
             const decrement = () =>{
                 if (inputValue.value > 1) {

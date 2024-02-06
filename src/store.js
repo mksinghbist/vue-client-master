@@ -74,7 +74,7 @@ const store = createStore({
     },
     setMobileDevice(state, isSmallDevice){
       state.isMobileDevice = isSmallDevice;
-      localStorage.setItem('customerCart',JSON.stringify(state.customerCart));
+      localStorage.setItem('isMobileDevice',state.isMobileDevice);
     }
   },
   actions : {
@@ -106,7 +106,6 @@ const store = createStore({
       }
     }, 
     checkUserDevice({commit}) {
-        console.log(window.innerWidth);
       commit('setMobileDevice', window.innerWidth <= 765);
     },
   }
