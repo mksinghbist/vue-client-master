@@ -37,7 +37,8 @@
                     <li class="container mb-2" v-for="(product, index) in products.slice(0, 3)" :key="index">
                         <div class="card flex bg-white p-2 rounded-lg shadow-md">
                             <div class="h-16 w-16 overflow-hidden rounded-lg">
-                                <img :src="product.productImgUrl" alt="" class="object-cover w-full h-full">
+                                <!-- <img :src="product.productImgUrl" alt="" class="object-cover w-full h-full"> -->
+                                <img class="object-cover w-full h-full" src="../../assets/LocalBazZar.png" alt="Product Image"/>
                             </div>
                             <div class="flex-1 ml-2">
                                 <p class="text-sm font-semibold">{{ product.productTitle }}</p>
