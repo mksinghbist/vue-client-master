@@ -1,7 +1,8 @@
 <template>
     <div class="bg-white rounded-lg min-h-32 md:min-h-40 lg:min-h-60 p-2">
         <figure class="mb-1">
-            <img :src="productObject.productImgUrl" alt="" class="h-28 md:h-40 lg:h-60 ml-auto mr-auto" />
+            <!-- <img :src="productObject.productImgUrl" alt="" class="h-28 md:h-40 lg:h-60 ml-auto mr-auto" /> -->
+            <img src="../assets/LocalBazZar.png" alt="" class="h-28 md:h-40 lg:h-60 ml-auto mr-auto" />
         </figure>
         <div class="rounded-lg p-2 bg-gray-600 flex flex-col">
             <div>

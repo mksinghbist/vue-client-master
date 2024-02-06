@@ -1,5 +1,5 @@
 <template>
-    <div  class="bg-gray-900 text-gray-100 py-3.5 px-6 shadow md:flex justify-between item-center fixed top-0 left-0 right-0 z-[1000]">
+    <div  class="bg-gray-900 text-gray-100 py-3.5 px-6 shadow md:flex justify-between item-center fixed top-0 left-0 right-0 z-[1000] shadow-md">
         <div class="flex items-center justify-between">
             <span @click="MenuOpen()" class="md:hidden cursor-pointer text-4xl">
                 <i :class="[isOpen ? 'bi bi-x' : 'bi bi-filter-left']"></i>

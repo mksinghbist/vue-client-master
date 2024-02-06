@@ -9,6 +9,7 @@ import ProductAdd from '../components/products/ProductInsert.vue';
 import ProductList from '../components/products/ProductList.vue'; 
 import AdminPanel from '../components/admin/AdminPanel.vue'
 import store from '../store';
+import CheckOutPage from '../components/baskets/checkout.vue';
 
 const routes = [
   {
@@ -71,6 +72,14 @@ const routes = [
     component: store.state.isAdmin ? AdminPanel : Home,
     meta: {
       admin: true,
+    }, 
+  },
+  {
+    path: '/checkout',
+    name: 'Check Out Page',
+    component: CheckOutPage,
+    meta: {
+      admin: false,
     }, 
   },
   

@@ -30,7 +30,7 @@
         </AcButton>
 
         <!-- Basket Modal -->
-        <div v-show="isBasketModalVisible" class="basket-modal w-80">
+        <div v-show="isBasketModalVisible" class="basket-modal absolute w-80">
             <div class="p-4 rounded-lg w-full">
                 <!-- Product details -->
                 <ul class="text-slate-400">
@@ -71,9 +71,9 @@
                     </div>
                 </div>
         
-                <!-- Checkout button -->
-                <button @click="checkout" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
-                    Checkout
+                <!-- redirectToCart button -->
+                <button @click="redirectToCart" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+                    redirectToCart
                 </button>
             </div>
         </div>
@@ -84,11 +84,15 @@
   import {ref, computed } from 'vue';
   import AcButton from '../Button.vue';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router'
+
   export default {
     name : 'MiniBasket',
     components : {AcButton},
     setup () {
         const store =  useStore();
+        const router = useRouter();
+
         const isBasketModalVisible = ref(false);
         const products = computed(() => {
             return store.state.customerCart.cartEntries;
@@ -107,13 +111,8 @@
         const totalProductQty = computed(() => {
              return products.value.reduce((total, product) => total + parseFloat(product.userEnterQty), 0);
         });
-        const checkout = () => {
-            // Implement your checkout logic here
-            alert('Checkout clicked!');
-        };
         const redirectToCart = () => {
-            // Implement your redirection logic here
-            alert('Checkout clicked!');
+            router.push('/checkout');
         };
 
         const isMobileDevice = computed(() => {
@@ -126,7 +125,6 @@
             showBasketModal,
             hideBasketModal,
             calculateTotalPrice,
-            checkout,
             products,
             redirectToCart,
             isMobileDevice,
@@ -145,8 +143,6 @@
         position: relative;
     }
     .basket-modal {
-        @apply absolute;
-
         transform: translate(-50%, 1%);
         background-color: #cccccc;
         padding: 5px;

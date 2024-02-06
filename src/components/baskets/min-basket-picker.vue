@@ -1,21 +1,14 @@
 <template>
     <div class="cart-picker flex items-center">
-      <!-- Show delete icon if input value is 1 -->
       <AcButton v-if="inputValue === 1" class="pl-2" @click="deleteProduct">
-        <span class="text-sm"><i class="fa-solid fa-trash text-red-500"></i></span>
+        <span class="text-sm"><i class="fa-solid fa-trash text-red-700"></i></span>
       </AcButton>
-  
-      <!-- Show decrement button if input value is greater than 1 -->
       <AcButton v-else class="pl-2" @click="decrement">
-        <span class="text-sm"><i class="fa-solid fa-minus text-white-900"></i></span>
+        <span class="text-sm"><i class="fa-solid fa-minus text-white-700"></i></span>
       </AcButton>
-  
-      <!-- Input field for quantity -->
       <input class="mx-2 font-bold rounded-md text-center w-10" v-model="inputValue">
-  
-      <!-- Increment button -->
       <AcButton @click="increment">
-        <span class="text-sm"><i class="fa-solid fa-plus text-white-900"></i></span>
+        <span class="text-sm"><i class="fa-solid fa-plus text-white-700"></i></span>
       </AcButton>
     </div>
   </template>
@@ -37,8 +30,7 @@
                 default: '',
             }
         },
-        setup(props,{emit}) {
-            
+        setup(props,{emit}) {            
             const inputValue = ref(props.intialQty);
             const deleteProduct = () =>{
                 carts.removeProductCarts(props.productId);
