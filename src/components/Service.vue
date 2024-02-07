@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isAdmin" class="flex items-center bg-indigo-100 w-screen">
+    <div v-if="!isAdmin" class="flex items-center bg-gray-50 w-screen">
       <div class="container ml-auto mr-auto flex flex-wrap items-start">
           <div class="w-full pl-5 lg:pl-2">
               <h1 class="text-3xl lg:text-4xl text-gray-700 font-extrabold">
