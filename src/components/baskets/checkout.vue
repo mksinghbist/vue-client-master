@@ -10,7 +10,8 @@
             <ul>
                 <li class="container p-2" v-for="product in cartProducts" :key="product.id">
                     <div class="card flex items-center justify-between bg-white rounded-lg shadow-md"> <!-- Center content vertically and horizontally -->
-                        <img class="w-20" src="../../assets/LocalBazZar.png" alt="Product Image"/>
+                        <img class="w-20 object-cover w-full" :src="product.productImgUrl" alt="Product Image"/>
+                        <!-- <img class="w-20" src="../../assets/LocalBazZar.png" alt="Product Image"/> -->
                         <MiniBasketPicker 
                             :productId="product.productId"
                             :initialQty="product.userEnterQty"
