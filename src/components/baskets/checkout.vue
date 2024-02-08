@@ -68,7 +68,7 @@
             });
             const placeOrderForPayment = () => {
     // Send WebSocket notification to admin panel
-    const socket = new WebSocket('ws://localhost:8080'); // Assuming WebSocket server is running on port 3000
+    const socket = new WebSocket('ws://ws://localbazar.netlify.app');
     socket.onopen = () => {
         socket.send(JSON.stringify({ type: 'new_order' }));
     };

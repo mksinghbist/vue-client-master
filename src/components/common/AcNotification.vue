@@ -13,7 +13,7 @@ export default {
   },
   created() {
     // Establish WebSocket connection
-    const socket = new WebSocket('ws://localhost:8080');
+    const socket = new WebSocket('ws://localbazar.netlify.app');
     socket.onmessage = (event) => {
       const newNotification = JSON.parse(event.data);
       this.notifications.push(newNotification);
