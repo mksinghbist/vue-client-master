@@ -50,6 +50,7 @@
     import { useStore } from 'vuex';
     import MiniBasketPicker from './min-basket-picker.vue';
     import carts from '../../common/carts';
+    import { placeOrder } from '../../services/orderService';
     export default {
         name : 'CheckOutPage',
         components : { MiniBasketPicker },
@@ -67,15 +68,8 @@
                 return cartProducts.value.reduce((total, product) => total + parseFloat(product.userEnterQty), 0);
             });
             const placeOrderForPayment = () => {
-    // Send WebSocket notification to admin panel
-    const socket = new WebSocket(`wss://${process.env.VUE_APP_API_BASE_Notification}`);
-    socket.onopen = () => {
-        socket.send(JSON.stringify({ type: 'new_order' }));
-    };
-
-    // Additional logic for order placement
-    console.log('calling placeOrder');
-};
+                placeOrder({id:1, message: "New Order come"});
+            };
             return {
                 cartProducts,
                 deleteProduct,
