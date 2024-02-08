@@ -16,7 +16,7 @@ export default {
   },
   created() {
     // Establish WebSocket connection
-    this.socket = io('http://localhost:3000'); // Adjust URL as per your server
+    this.socket = io(process.env.VUE_APP_API_BASE_Notification); // Adjust URL as per your server
 
     // Listen for newOrder event
     this.socket.on('newOrder', (data) => {
