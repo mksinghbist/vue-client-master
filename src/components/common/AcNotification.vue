@@ -13,7 +13,7 @@ export default {
   },
   created() {
     // Establish WebSocket connection
-    const socket = new WebSocket('wss://nice-pear-swallow-hat.cyclic.app');
+    const socket = new WebSocket(`wss://${process.env.VUE_APP_API_BASE_Notification}`);
     socket.onmessage = (event) => {
       const newNotification = JSON.parse(event.data);
       this.notifications.push(newNotification);

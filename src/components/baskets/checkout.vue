@@ -68,7 +68,7 @@
             });
             const placeOrderForPayment = () => {
     // Send WebSocket notification to admin panel
-    const socket = new WebSocket('wss://nice-pear-swallow-hat.cyclic.app');
+    const socket = new WebSocket(`wss://${process.env.VUE_APP_API_BASE_Notification}`);
     socket.onopen = () => {
         socket.send(JSON.stringify({ type: 'new_order' }));
     };
