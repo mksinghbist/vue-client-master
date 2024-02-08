@@ -74,7 +74,7 @@
         
                 <!-- redirectToCart button -->
                 <button @click="redirectToCart" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
-                    redirectToCart
+                    checkout
                 </button>
             </div>
         </div>

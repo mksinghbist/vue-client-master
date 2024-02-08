@@ -50,10 +50,9 @@ const store = createStore({
       state.user = user;
       localStorage.setItem('userInfo',user);
     },
-    setAdminStatus(state, user) {
-      user = JSON.parse(user);
-      state.isAdmin = user.admin ? true : false;
-
+    setAdminStatus(state, isAdmin) {
+      state.isAdmin = isAdmin ? true : false;
+      localStorage.setItem('isAdmin',state.isAdmin);
       if(state.isAdmin) {
         state.navRouter = [
           { name: "Dashboard", link: '/adminPanel' },
@@ -91,14 +90,16 @@ const store = createStore({
       if(userInfo != null) commit('setUserData', userInfo);
     },
     checkUserAsAdmin({commit}) {
-      const userInfo = localStorage.getItem('userInfo');
-      if(userInfo != null) commit('setAdminStatus', userInfo);
+      const isAdmin = localStorage.getItem('isAdmin');
+      if(isAdmin != null && isAdmin != undefined) {
+        commit('setAdminStatus', isAdmin);
+      }
     },
     checkCustomerCart({commit}) {
       const useCarts = localStorage.getItem('customerCart');
       if(useCarts != null && useCarts != undefined) {
         try {
-          var initialCart = JSON.parse(useCarts);
+          const initialCart = JSON.parse(useCarts);
           commit('addToCart', initialCart.cartEntries);
         } catch(error) {
           commit('addToCart', []);

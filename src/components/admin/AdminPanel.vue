@@ -1,5 +1,6 @@
 <template>
 <div v-if="isAdmin" class="flex-grow text-gray-800">
+    <AcNotificationVue></AcNotificationVue>
     <main class="p-6 sm:p-10 space-y-6">
         <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
         <div class="mr-6">
@@ -87,9 +88,10 @@ import { computed , ref, onMounted, onBeforeUnmount} from 'vue';
 import CustomTable from '../common/CustomTable.vue';
 import { fetchDataFromApi } from '@/services/apiService'; 
 import { useStore } from 'vuex';
+import AcNotificationVue from '../common/AcNotification.vue';
 export default {
     name : 'AdminPanel',
-    components : { CustomTable },
+    components : { CustomTable, AcNotificationVue },
     props: {},
     setup () {
         const screenWidth = ref(window.innerWidth);
@@ -136,7 +138,9 @@ export default {
             console.log('admin  checking -->', store.state.isAdmin);
            return store.state.isAdmin
         });
+        onMounted(() => {
 
+        })
         return {
             isScreenlg,
             tableIndex,

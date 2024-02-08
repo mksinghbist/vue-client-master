@@ -6,10 +6,10 @@
         </figure>
         <div class="rounded-lg p-2 bg-gray-600 flex flex-col">
             <div>
-                <h5 class="text-white text-base font-bold leading-none">
+                <h5 class="text-white text-base font-bold leading-3">
                 {{ productObject.productTitle }}
                 </h5>
-                <span class="text-sm text-gray-400 leading-none">{{ productObject.productDesc }}</span>
+                <span class="text-sm text-white font-medium leading-3">{{ productObject.productDesc }}</span>
             </div>
             <div class="flex items-center">
                 <div class="text-lg text-white font-light">
@@ -24,7 +24,7 @@
             <div v-if="isAddButtonClick || newProductQty != 0 " class="flex items-end justify-end">
                 <MiniBasketPicker 
                     :productId="productObject.productId"
-                    :intialQty="newProductQty"
+                    :initialQty="newProductQty"
                     @removeProduct="handleRemoveProduct"
                 >
                 </MiniBasketPicker>
@@ -51,23 +51,23 @@
         },
         setup(props) {
             const isAddButtonClick = ref(false);
-            const intialQty = ref(carts.getProduct(props.productObject.productId));
+            const initialQty = ref(carts.getProduct(props.productObject.productId));
             const addProduct = () => {
                 isAddButtonClick.value = true;
                 var newProduct = props.productObject;
                 newProduct.userEnterQty = 1;
-                intialQty.value = 1;
+                initialQty.value = 1;
                 carts.addToCart(newProduct)
             }
             const handleRemoveProduct = (value) => {
-                intialQty.value = value;
+                initialQty.value = value;
                 isAddButtonClick.value = false;
             };
-            const newProductQty = computed(() => intialQty.value);
+            const newProductQty = computed(() => initialQty.value);
             return {
                 addProduct,
                 isAddButtonClick,
-                intialQty,
+                initialQty,
                 handleRemoveProduct,
                 newProductQty
             }

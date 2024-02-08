@@ -1,5 +1,5 @@
 <template>
-  <div v-if='!isLogined && !isSignup' class="flex items-center justify-center min-h-screen bg-gray-100 lg:justify-center">
+  <div v-if='!isLogined && !isSignUpCheck' class="flex items-center justify-center min-h-screen bg-gray-100 lg:justify-center">
     <div
       class="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md"
     >
@@ -69,12 +69,12 @@
     </div>
   </div>
   <AcLoader :loading="isLoading"></AcLoader>
-  <div v-if="isLogined && !isSignup">
+  <div v-if="isLogined && !isSignUpCheck">
       <Navbar></Navbar> 
       <RouterView></RouterView>
   </div>
-  <div v-if="isSignup">
-      <div :class="{ 'mt-0': isSignup , 'mt-40' : !isSignup }">
+  <div v-if="isSignUpCheck">
+      <div :class="{ 'mt-0': isSignUpCheck , 'mt-40' : !isSignUpCheck }">
         <RouterView></RouterView>
       </div>
   </div>
@@ -100,6 +100,7 @@ export default {
     const router = useRouter();
     const isSignup = ref(false);
     const isLoading = ref(false);
+
     const userLogin = async () => {
       try {
         isLoading.value = true;
@@ -108,33 +109,48 @@ export default {
           password: userPassword.value 
         })
         isLoading.value = false;
-        if(data.status == 'true' || data.status == true) {
-          store.commit('setAdminStatus', JSON.stringify(data));
+
+        if (data.status === 'true' || data.status === true) {
+          // Store user data in Vuex if necessary
           store.commit('setUserData', JSON.stringify(data));
+
+          // Set authentication status
           localStorage.setItem('isAuthenticated', true);
           store.commit('setAuthentication', true);
-          store.commit('setIsLogin', true);          
-          isSignup.value = false;
+          store.commit('setIsLogin', true);   
           
-          router.push('/');
+          store.commit('setAdminStatus', data.admin);
+
+          isSignup.value = false;
+
+          // Redirect to appropriate route based on user role
+          if (data.admin) {
+            router.push('/adminPanel');
+          } else {
+            router.push('/');
+          }
         } else {
+          // Handle login failure
           userEmail.value = '';
           userPassword.value = '';
-          errMessage.value = data.msg;
+          errMessage.value = data.msg || 'An error occurred during login.';
           isError.value = true;
         }
       } catch (error) {
+        // Handle API request errors
         localStorage.setItem('isAuthenticated', false);
-        errMessage.value = '';
+        errMessage.value = error.message || 'An error occurred during login.';
         isError.value = true;
       }
     };
+
     const openSignUp = () => {
       isSignup.value = true;
     }
     const isLogined = computed(() => {
       return store.state.isLogin;
     }); 
+    const isSignUpCheck = computed(() =>  isSignup.value );
     return {
       userEmail,
       userPassword,
@@ -143,7 +159,7 @@ export default {
       isError,
       isLogined,
       openSignUp,
-      isSignup,
+      isSignUpCheck,
       isLoading
     };
   }

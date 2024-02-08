@@ -93,26 +93,32 @@ router.afterEach(() => {
 });
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.state.isAuthenticated;
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    console.log('I am here 1');
-    if (!isAuthenticated) {
-      if(to.name == "Signup") {
-        next();
-      } 
-      else {
-        next('/login');
-      }
-    } 
-    else {
+
+  // Redirect to login if authentication is required and user is not authenticated
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    if (to.name === "Signup") {
       next();
-    }
-  }
-  else {
-    if(to.fullPath == '/login' && isAuthenticated && store.state.isLogin) {
-      next('/');
     } else {
-      next();
+      next('/login');
+    }
+    return;
+  }
+
+  // Redirect to admin panel if user is authenticated and is admin
+  if (isAuthenticated && store.state.isAdmin) {
+    if (to.fullPath === '/login' && store.state.isLogin) {
+      next('/adminPanel');
+      return;
+    }
+    if (to.path !== '/adminPanel') {
+      next('/adminPanel');
+      return;
     }
   }
+
+  // Continue with the navigation
+  next();
 });
+
+
 export default router

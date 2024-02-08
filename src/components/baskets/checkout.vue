@@ -28,10 +28,14 @@
 
         <div class="carts_place_order card flex justify-between mb-0 w-full p-4 fixed-bottom bg-white shadow-md">
             <div class="flex items-center justify-start">
-                <span class="px-4 py-2">
-                    <strong>Total Price : </strong>
-                    {{ totalProductPrice }}
-                </span>
+                <div class="px-4 py-2 text-base" >
+                    <small >
+                        <strong>Total Price : </strong>
+                        <span class="rupee-icon"></span>{{ totalProductPrice }}
+                    </small>
+                    <br/>
+                    <small><strong>Qty: </strong>{{ totalProductQty }}</small>
+                </div>
             </div>
             <div  class="flex items-center justify-end">
                 <button @click="placeOrderForPayment" class="bg-yellow-500 text-black px-4 py-2 rounded">
@@ -60,13 +64,24 @@
             });
 
             const totalProductQty = computed(() => {
-             return cartProducts.value.reduce((total, product) => total + parseFloat(product.userEnterQty), 0);
+                return cartProducts.value.reduce((total, product) => total + parseFloat(product.userEnterQty), 0);
             });
+            const placeOrderForPayment = () => {
+    // Send WebSocket notification to admin panel
+    const socket = new WebSocket('ws://localhost:8080'); // Assuming WebSocket server is running on port 3000
+    socket.onopen = () => {
+        socket.send(JSON.stringify({ type: 'new_order' }));
+    };
+
+    // Additional logic for order placement
+    console.log('calling placeOrder');
+};
             return {
                 cartProducts,
                 deleteProduct,
                 totalProductPrice,
-                totalProductQty
+                totalProductQty,
+                placeOrderForPayment
             } 
         }
     }
@@ -78,6 +93,10 @@
         bottom: 0;
         left: 0;
         right: 0;
+    }
+    .rupee-icon::before {
+        content: "\20B9";
+        display: inline-block;
     }
 
 </style>

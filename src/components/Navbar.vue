@@ -74,6 +74,7 @@ setup () {
     const userLogout = () => {
         localStorage.removeItem('userInfo');
         localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('isAdmin');
         store.commit('setAuthentication', false);
         store.commit('setIsLogin', false);
         store.commit('resetState');
