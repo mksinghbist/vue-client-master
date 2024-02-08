@@ -68,7 +68,7 @@
             });
             const placeOrderForPayment = () => {
     // Send WebSocket notification to admin panel
-    const socket = new WebSocket('wss://localbazar.netlify.app');
+    const socket = new WebSocket('wss://nice-pear-swallow-hat.cyclic.app');
     socket.onopen = () => {
         socket.send(JSON.stringify({ type: 'new_order' }));
     };
