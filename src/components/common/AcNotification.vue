@@ -6,28 +6,34 @@
 </template>
 
 <script>
-// import io from 'socket.io-client';
+import socket from '@/common/socket'; 
+
 export default {
   data() {
     return {
-      socket: null,
       notifications: []
     };
   },
-  created() {
-    // Establish WebSocket connection
-    // this.socket = io(process.env.VUE_APP_API_BASE_Notification); // Adjust URL as per your server
-
-    // // Listen for newOrder event
-    // this.socket.on('newOrder', (data) => {
-    //   // Handle new order data
-    //   console.log('New order received:', data);
-    //   this.notifications.push(data); // Add new order to the orders array
-    // });
+  mounted() {
+    this.connectSocket();
   },
-  unmounted() {
-    // Close WebSocket connection when component is unmounted
-    // this.socket.disconnect();
+  methods: {
+    connectSocket() {
+      // Establish WebSocket connection
+      socket.connect();
+      
+      // Listen for 'newOrder' events and update notifications array
+      socket.on('newOrder', (data) => {
+        this.notifications.push(data);
+      });
+    },
+    disconnectSocket() {
+      // Disconnect WebSocket connection when component is unmounted
+      socket.disconnect();
+    }
+  },
+  beforeUnmount() {
+    this.disconnectSocket();
   }
 };
 </script>

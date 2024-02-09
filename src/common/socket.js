@@ -1,6 +1,24 @@
-// // socket.js
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 
-// const socket = io(process.env.VUE_APP_API_BASE_Notification);
+let socket = null;
+let connectionAttempted = false;
 
-// export default socket;
+const connectSocket = () => {
+  if (!connectionAttempted) {
+    // Attempt to establish the WebSocket connection
+    socket = io(process.env.VUE_APP_API_BASE_Notification);
+
+    // Set connectionAttempted flag to true to prevent subsequent attempts
+    connectionAttempted = true;
+
+    // Reset connectionAttempted after 5 minutes to allow for reconnection
+    setTimeout(() => {
+      connectionAttempted = false;
+    }, 30 * 60 * 1000); // 5 minutes in milliseconds
+  }
+};
+
+// Connect socket when the module is imported
+connectSocket();
+
+export default socket;
