@@ -20,7 +20,7 @@ export default {
       this.notifications.push(data); // Update notifications array
     });
   },
-  beforeDestroy() {
+  beforeUnmount() { // Changed from beforeDestroy to beforeUnmount
     // Clean up socket event listener to prevent memory leaks
     socket.off('newOrder');
   }
