@@ -15,25 +15,14 @@ export default {
     };
   },
   mounted() {
-    this.connectSocket();
+    // Listen for 'newOrder' event
+    socket.on('newOrder', (data) => {
+      this.notifications.push(data); // Update notifications array
+    });
   },
-  methods: {
-    connectSocket() {
-      // Establish WebSocket connection
-      socket.connect();
-      
-      // Listen for 'newOrder' events and update notifications array
-      socket.on('newOrder', (data) => {
-        this.notifications.push(data);
-      });
-    },
-    disconnectSocket() {
-      // Disconnect WebSocket connection when component is unmounted
-      socket.disconnect();
-    }
-  },
-  beforeUnmount() {
-    this.disconnectSocket();
+  beforeDestroy() {
+    // Clean up socket event listener to prevent memory leaks
+    socket.off('newOrder');
   }
 };
 </script>
