@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 export default {
   data() {
     return {
@@ -16,18 +16,18 @@ export default {
   },
   created() {
     // Establish WebSocket connection
-    this.socket = io(process.env.VUE_APP_API_BASE_Notification); // Adjust URL as per your server
+    // this.socket = io(process.env.VUE_APP_API_BASE_Notification); // Adjust URL as per your server
 
-    // Listen for newOrder event
-    this.socket.on('newOrder', (data) => {
-      // Handle new order data
-      console.log('New order received:', data);
-      this.notifications.push(data); // Add new order to the orders array
-    });
+    // // Listen for newOrder event
+    // this.socket.on('newOrder', (data) => {
+    //   // Handle new order data
+    //   console.log('New order received:', data);
+    //   this.notifications.push(data); // Add new order to the orders array
+    // });
   },
   unmounted() {
     // Close WebSocket connection when component is unmounted
-    this.socket.disconnect();
+    // this.socket.disconnect();
   }
 };
 </script>
