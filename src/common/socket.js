@@ -6,7 +6,9 @@ let connectionAttempted = false;
 const connectSocket = () => {
   if (!connectionAttempted) {
     // Attempt to establish the WebSocket connection
-    socket = io(process.env.VUE_APP_API_BASE_Notification);
+    socket = io(process.env.VUE_APP_API_BASE_Notification, {
+        withCredentials: true,
+    });
 
     // Set connectionAttempted flag to true to prevent subsequent attempts
     connectionAttempted = true;
