@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import socket from '@/common/socket'; 
+// import socket from '@/common/socket'; 
 
 export default {
   data() {
@@ -16,13 +16,13 @@ export default {
   },
   mounted() {
     // Listen for 'newOrder' event
-    socket.on('newOrder', (data) => {
-      this.notifications.push(data); // Update notifications array
-    });
+    // socket.on('newOrder', (data) => {
+    //   this.notifications.push(data); // Update notifications array
+    // });
   },
   beforeUnmount() { // Changed from beforeDestroy to beforeUnmount
     // Clean up socket event listener to prevent memory leaks
-    socket.off('newOrder');
+    //socket.off('newOrder');
   }
 };
 </script>
