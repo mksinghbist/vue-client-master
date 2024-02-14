@@ -114,12 +114,13 @@ const store = createStore({
           } catch (error) {
             console.error('Error parsing cart from local storage:', error);
           }
-        }
-        const cartResponse = await getCustomerCart('user/getCarts');
-        if (cartResponse.success) {
-          commit('addToCart', cartResponse.data.carts ? cartResponse.data.carts : []);
         } else {
-          console.error('Failed to fetch customer cart:', cartResponse.error);
+          const cartResponse = await getCustomerCart('user/getCarts');
+          if (cartResponse.success) {
+            commit('addToCart', cartResponse.carts ? cartResponse.carts : []);
+          } else {
+            console.error('Failed to fetch customer carts:', cartResponse.error);
+          }
         }
       }
     }, 

@@ -1,10 +1,6 @@
 <template>
-    <div class="back_home-page">
-        <router-link to="/" class="flex items-center underline"> <strong class="p-2 text-base">Home</strong></router-link>
-    </div>
     <div v-if="totalProductQty != 0" class="bg-white">
         <div class="user_address">
-
         </div>
         <div class="carts_product-list">
             <ul>
@@ -12,7 +8,8 @@
                     <div class="card flex items-center justify-between bg-white rounded-lg shadow-md"> <!-- Center content vertically and horizontally -->
                         <img class="w-20 object-cover p-2" :src="product.productImgUrl" alt="Product Image"/>
                         <!-- <img class="w-20" src="../../assets/LocalBazZar.png" alt="Product Image"/> -->
-                        <MiniBasketPicker 
+                        <MiniBasketPicker
+                            :isCheckoutPage=true
                             :productId="product.productId"
                             :initialQty="product.userEnterQty"
                         ></MiniBasketPicker>
@@ -44,9 +41,24 @@
             </div>
         </div>
     </div>
+    <div v-if="totalProductQty == 0">
+        <div v-if="isPlaceOrder" class="flex justify-center items-center ">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold">Order Received!</h2>
+                <p class="text-lg mb-2">Thank you for your order! 🎉</p>     
+            </div>
+        </div>
+        <div class="flex text-center justify-center">
+            <router-link to="/"> 
+                <div class="text-sm">
+                    <span>Continue shoping back to <strong class="underline">Home</strong></span>
+                </div>
+            </router-link>
+        </div>
+    </div>
 </template>
 <script>
-    import { computed } from 'vue';
+    import { computed, ref } from 'vue';
     import { useStore } from 'vuex';
     import MiniBasketPicker from './min-basket-picker.vue';
     import carts from '../../common/carts';
@@ -56,18 +68,25 @@
         components : { MiniBasketPicker },
         setup () {
             const store = useStore();
+            const isPlaceOrder = ref(false);
             const cartProducts = computed(() => store.state.customerCart.cartEntries);
             const deleteProduct = (id) => {
                 carts.removeProductCarts(id);
             }
             const totalProductPrice = computed(() => {
-                return cartProducts.value.reduce((total, product) => total + parseFloat(product.productPrice.replace('$', '') * parseFloat(product.userEnterQty)), 0).toFixed(2);
+                return cartProducts.value.reduce((total, product) => {
+                const price = parseFloat(product.productPrice);
+                const qty = parseFloat(product.userEnterQty);
+                return total + (price * qty);
+            }, 0).toFixed(2);
             });
 
             const totalProductQty = computed(() => {
                 return cartProducts.value.reduce((total, product) => total + parseFloat(product.userEnterQty), 0);
             });
             const placeOrderForPayment = () => {
+                store.commit('addToCart', []);
+                isPlaceOrder.value = true;
                 placeOrder({id:1, message: "New Order come"});
             };
             return {
@@ -75,7 +94,8 @@
                 deleteProduct,
                 totalProductPrice,
                 totalProductQty,
-                placeOrderForPayment
+                placeOrderForPayment,
+                isPlaceOrder
             } 
         }
     }

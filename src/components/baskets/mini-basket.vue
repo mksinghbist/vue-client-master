@@ -107,7 +107,11 @@
             isBasketModalVisible.value = false;
         };
         const calculateTotalPrice = computed(() => {
-             return products.value.reduce((total, product) => total + parseFloat(product.productPrice.replace('$', '') * parseFloat(product.userEnterQty)), 0).toFixed(2);
+            return products.value.reduce((total, product) => {
+                const price = parseFloat(product.productPrice);
+                const qty = parseFloat(product.userEnterQty);
+                return total + (price * qty);
+            }, 0).toFixed(2);
         });
         const totalProductQty = computed(() => {
              return products.value.reduce((total, product) => total + parseFloat(product.userEnterQty), 0);

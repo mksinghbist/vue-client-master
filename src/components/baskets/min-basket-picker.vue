@@ -4,11 +4,11 @@
         <span class="text-sm"><i class="fa-solid fa-trash text-red-600"></i></span>
       </div>
       <div v-else class="pl-2" @click="decrement">
-        <span class="text-sm"><i class="fa-solid fa-minus text-white"></i></span>
+        <span class="text-sm"><i class="fa-solid fa-minus" :class="isCheckoutPage ? 'text-black': 'text-white'"></i></span>
       </div>
       <input class="mx-2 font-bold rounded-md text-center w-10" v-model="inputValue">
       <div @click="increment">
-        <span class="text-sm"><i class="fa-solid fa-plus text-white"></i></span>
+        <span class="text-sm"><i class="fa-solid fa-plus" :class="isCheckoutPage ? 'text-black': 'text-white'"></i></span>
       </div>
     </div>
   </template>
@@ -27,6 +27,10 @@
             productId: {
                 type: String,
                 default: '',
+            },
+            isCheckoutPage: {
+              type: Boolean,
+              default: false
             }
         },
         setup(props,{emit}) {            

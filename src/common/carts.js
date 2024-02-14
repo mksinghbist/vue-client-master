@@ -9,6 +9,12 @@ class Carts {
     store.watch(() => store.state.customerCart.cartEntries, (newVal) => {
       this.customerCart = Array.isArray(newVal) ? newVal : [];
     });
+    store.watch(() => store.state.isAuthenticated, (newUser, oldUser) => {
+      if (newUser !== oldUser) {
+          // Reset cartEntries when the user changes
+          this.cartEntries = Array.isArray(store.state.customerCart.cartEntries) ? store.state.customerCart.cartEntries : [];
+      }
+  });
   }
 
   addToCart(item) {
@@ -29,8 +35,10 @@ class Carts {
       console.error('Product not found in the cart.');
     }
   }
-  getProduct(productId) {
-    const product = this.cartEntries.find(entry => entry.productId === productId);
+  getProductUserEnterQty(productId) {
+    const product = this.cartEntries.find(entry => {
+      return entry.productId == productId
+    });
     return product?.userEnterQty ? product?.userEnterQty : 0;
   }
   removeProductCarts(productId) {

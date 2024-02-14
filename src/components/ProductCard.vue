@@ -51,7 +51,7 @@
         },
         setup(props) {
             const isAddButtonClick = ref(false);
-            const initialQty = ref(carts.getProduct(props.productObject.productId));
+            const initialQty = ref(carts.getProductUserEnterQty(props.productObject.productId));
             const addProduct = () => {
                 isAddButtonClick.value = true;
                 var newProduct = props.productObject;
