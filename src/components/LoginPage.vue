@@ -113,12 +113,12 @@ export default {
         if (data.status === 'true' || data.status === true) {
           // Store user data in Vuex if necessary
           store.commit('setUserData', JSON.stringify(data));
+          store.commit('addToCart', data.carts);
 
           // Set authentication status
           localStorage.setItem('isAuthenticated', true);
           store.commit('setAuthentication', true);
           store.commit('setIsLogin', true);   
-          
           store.commit('setAdminStatus', data.admin);
 
           isSignup.value = false;

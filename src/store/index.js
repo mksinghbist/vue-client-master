@@ -2,6 +2,7 @@
 
 import { createApp } from 'vue';
 import { createStore } from 'vuex';
+import { updateUserCart , getCustomerCart} from '../services/cartService'; 
 
 const app = createApp();
 
@@ -35,6 +36,11 @@ const store = createStore({
     ],
     customerCart: { cartEntries: []}, 
   },
+  getters: {
+    itemsInCart : state => {
+      return state.customerCart.cartEntries.reduce((total, product) => total + parseFloat(product?.userEnterQty), 0);
+    }
+  },
   mutations: {
     resetState(state) {
       Object.assign(state, getDefaultState());
@@ -51,7 +57,7 @@ const store = createStore({
       localStorage.setItem('userInfo',user);
     },
     setAdminStatus(state, isAdmin) {
-      state.isAdmin = isAdmin ? true : false;
+      state.isAdmin = isAdmin == true || isAdmin == "true" ? true : false;
       localStorage.setItem('isAdmin',state.isAdmin);
       if(state.isAdmin) {
         state.navRouter = [
@@ -70,6 +76,9 @@ const store = createStore({
     addToCart(state, carts) {
       state.customerCart.cartEntries = carts ? carts : [];
       localStorage.setItem('customerCart',JSON.stringify(state.customerCart));
+      if(state.isLogin) {
+        updateUserCart('user/cartsupdate',{ userCart : state.customerCart.cartEntries } );
+      }
     },
     setMobileDevice(state, isSmallDevice){
       state.isMobileDevice = isSmallDevice;
@@ -95,20 +104,29 @@ const store = createStore({
         commit('setAdminStatus', isAdmin);
       }
     },
-    checkCustomerCart({commit}) {
-      const useCarts = localStorage.getItem('customerCart');
-      if(useCarts != null && useCarts != undefined) {
-        try {
-          const initialCart = JSON.parse(useCarts);
-          commit('addToCart', initialCart.cartEntries);
-        } catch(error) {
-          commit('addToCart', []);
+    async checkCustomerCart({commit, state}) {
+      if (state.isLogin) {
+        const useCarts = localStorage.getItem('customerCart');
+        if (useCarts != null && useCarts != undefined) {
+          try {
+            const initialCart = JSON.parse(useCarts);
+            commit('addToCart', initialCart.cartEntries);
+          } catch (error) {
+            console.error('Error parsing cart from local storage:', error);
+          }
+        }
+        const cartResponse = await getCustomerCart('user/getCarts');
+        if (cartResponse.success) {
+          commit('addToCart', cartResponse.data.carts ? cartResponse.data.carts : []);
+        } else {
+          console.error('Failed to fetch customer cart:', cartResponse.error);
         }
       }
     }, 
     checkUserDevice({commit}) {
       commit('setMobileDevice', window.innerWidth <= 765);
     },
+    
   }
 });
 

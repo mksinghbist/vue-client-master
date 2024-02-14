@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// import socket from '@/common/socket'; 
 
 export default {
   data() {

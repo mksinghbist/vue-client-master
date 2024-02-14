@@ -5,6 +5,8 @@
         <div class="mt-40">
           <RouterView></RouterView>
         </div>
+        <BottomNavBar/>
+        
     </div>
     <LoginPage v-if="!isLogined"></LoginPage>
   </div>
@@ -16,12 +18,14 @@ import { onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import LoginPage from './components/LoginPage.vue';
 import { useStore } from 'vuex';
+import BottomNavBar  from './components/BottomNavbar.vue'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    LoginPage
+    LoginPage,
+    BottomNavBar
 },
   props : {},
   setup() {

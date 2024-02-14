@@ -5,7 +5,7 @@
                 <i :class="[isOpen ? 'bi bi-x' : 'bi bi-filter-left']"></i>
             </span>
 
-            <router-link to="/" class="flex items-center">
+            <router-link to="/" class="flex justify-center items-center">
                 <span class="text-green-500 text-xl mr-1 aspect-square mix-blend-hard-light">
                     <img class="w-10" src="../assets/LocalBazZar.png" />
                 </span>
@@ -14,9 +14,9 @@
                 </h1>
             </router-link>
 
-            <span v-if="isMobileDevice" class="flex items-center cursor-pointer">
+            <!-- <span v-if="isMobileDevice" class="flex items-center cursor-pointer">
                 <MiniBasket v-if="!isAdmin"></MiniBasket> 
-            </span>
+            </span> -->
         </div>
 
         <div :class="isMobileDevice ? 'my-2' : 'mb-2'">
@@ -26,7 +26,7 @@
                 :class="[isOpen ? 'left-0' : 'left-[-100%]']"
             >
                 <li class="md:mr-4 md:my-0 my-6" v-for="link in Links" :key="link.id">
-                <router-link :to="link.link" @click="MenuOpen()" class="text-xl hover:text-green-500">{{ link.name }}</router-link>
+                    <router-link :to="link.link" @click="MenuOpen()" class="text-xl hover:text-green-500">{{ link.name }}</router-link>
                 </li>
                 <AcButton v-if="isMobileDevice" class="pl-2" @click="userLogout()">
                     <span class="text-xl"><i class="fa-solid fa-power-off text-red-700"></i></span>
@@ -44,7 +44,7 @@
   
 
 <script>
-import { ref , onMounted, computed } from 'vue';
+import { ref , onMounted, computed, onBeforeUnmount } from 'vue';
 import AcButton from './Button.vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router'
@@ -72,9 +72,7 @@ setup () {
         isOpen.value = !isOpen.value
     };
     const userLogout = () => {
-        localStorage.removeItem('userInfo');
-        localStorage.removeItem('isAuthenticated');
-        localStorage.removeItem('isAdmin');
+        localStorage.clear();
         store.commit('setAuthentication', false);
         store.commit('setIsLogin', false);
         store.commit('resetState');
@@ -89,10 +87,21 @@ setup () {
 
     const isMobileDevice = computed(() => store.state.isMobileDevice);
 
+    const handleResize = () => {
+      if(window.innerWidth <= 765) {
+        store.commit('setMobileDevice', window.innerWidth <= 765);
+      } else {
+        store.commit('setMobileDevice', window.innerWidth <= 765);
+      }
+    };
+
     onMounted( () => {
         isLoginChecked(); 
-        window.addEventListener('resize', store.commit('setMobileDevice', window.innerWidth <= 765));
+        window.addEventListener('resize',handleResize);
     })
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', handleResize);
+    });
     return {
         Links,
         isOpen,
