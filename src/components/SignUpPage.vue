@@ -73,6 +73,7 @@
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
     import { useStore } from 'vuex';
+    import eventBus from '../common/eventBus.js';
     export default {
       name: 'SignUpPage',
       components: {},
@@ -84,17 +85,16 @@
         const store = useStore();
         const InsertUserData = async () => {
           try {
+            eventBus.emit('showLoader');
             const data = await insertDataFromApi('signup', { 
               userName: userName.value,
               userEmail: userEmail.value, 
               userPassword: userPassword.value,
             });
-            if(data.status == 'true' || data.status == true) {
-
-              setTimeout( () => {  
+            eventBus.emit('hideLoader');
+            if(data.status == 'true' || data.status == true) { 
                 store.commit('setIsLogin', false);             
                 router.push('/login');
-              },5000);
             } else {
               userEmail.value = '';
               userPassword.value = '';

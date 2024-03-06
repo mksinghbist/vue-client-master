@@ -45,6 +45,7 @@
             <input
               type="password"
               v-model="userPassword"
+              autocomplete="current-password"
               class="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
             />
           </div>
@@ -68,7 +69,6 @@
       </div>
     </div>
   </div>
-  <AcLoader :loading="isLoading"></AcLoader>
   <div v-if="isLogined && !isSignUpCheck">
       <Navbar></Navbar> 
       <RouterView></RouterView>
@@ -86,11 +86,11 @@ import { insertDataFromApi } from '../services/apiService.ts';
 import { useStore } from 'vuex';
 import Navbar from './Navbar.vue';
 import { useRouter } from 'vue-router';
-import AcLoader from './common/AcLoader.vue';
+import eventBus from '../common/eventBus.js';
 
 export default {
   name: 'LoginPage',
-  components: { Navbar, AcLoader },
+  components: { Navbar },
   setup () {
     const store = useStore();
     const userEmail = ref('');
@@ -99,17 +99,14 @@ export default {
     const errMessage = ref('');
     const router = useRouter();
     const isSignup = ref(false);
-    const isLoading = ref(false);
 
     const userLogin = async () => {
       try {
-        isLoading.value = true;
+        eventBus.emit('showLoader');
         const data = await insertDataFromApi('login', { 
           userEmail: userEmail.value, 
           password: userPassword.value 
         })
-        isLoading.value = false;
-
         if (data.status === 'true' || data.status === true) {
           // Store user data in Vuex if necessary
           store.commit('setUserData', JSON.stringify(data));
@@ -136,12 +133,15 @@ export default {
           errMessage.value = data.msg || 'An error occurred during login.';
           isError.value = true;
         }
+        eventBus.emit('hideLoader');
       } catch (error) {
         // Handle API request errors
         localStorage.setItem('isAuthenticated', false);
         errMessage.value = error.message || 'An error occurred during login.';
         isError.value = true;
+        eventBus.emit('hideLoader');
       }
+
     };
 
     const openSignUp = () => {
@@ -160,7 +160,6 @@ export default {
       isLogined,
       openSignUp,
       isSignUpCheck,
-      isLoading
     };
   }
 }

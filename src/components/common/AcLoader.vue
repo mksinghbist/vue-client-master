@@ -4,23 +4,34 @@
   </div>
 </template>
 <script>
-import { computed } from 'vue';
+import { onMounted, onUnmounted , ref } from 'vue';
+import eventBus from '../../common/eventBus';
 export default {
   name: 'AcLoader',
-  props: {
-    loading: {
-      type: Boolean,
-      default: false
-    }
-  },
-  setup(props) {
-    const isLoading = computed(() => {
-      return props.loading;
+  setup() {
+    const isLoading = ref(false);
+
+    // Listen for showLoader and hideLoader events
+    const showLoaderHandler = () => {
+      isLoading.value = true;
+    };
+
+    const hideLoaderHandler = () => {
+      console.log("calling showloader");
+      isLoading.value = false;
+    };
+
+    onMounted(() => {
+      eventBus.on('showLoader', showLoaderHandler);
+      eventBus.on('hideLoader', hideLoaderHandler);
     });
 
-    return {
-      isLoading
-    };
+    onUnmounted(() => {
+      eventBus.off('showLoader', showLoaderHandler);
+      eventBus.off('hideLoader', hideLoaderHandler);
+    });
+
+    return { isLoading };
   }
 };
 </script>
