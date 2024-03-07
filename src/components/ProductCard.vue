@@ -10,7 +10,7 @@
             </h5>
         </div>
         <div class="product_sub-heading">
-            <span class="text-xs text-white font-medium leading-4 whitespace-nowrap overflow-hidden truncate">{{ productObject.productDesc }}</span>
+            <span class="text-xs text-white font-medium leading-4">{{ productObject.productDesc }}</span>
         </div>
         <div class="flex items-center">
           <div class="text-base text-white font-light">
