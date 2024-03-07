@@ -1,37 +1,42 @@
 <template>
-    <div class="bg-white rounded-lg min-h-32 md:min-h-40 lg:min-h-60 p-2">
-        <figure class="mb-1">
-            <img :src="productObject.productImgUrl" alt="" class="h-28 md:h-40 lg:h-60 ml-auto mr-auto" />
-            <!-- <img src="../assets/LocalBazZar.png" alt="" class="h-28 md:h-40 lg:h-60 ml-auto mr-auto" /> -->
-        </figure>
-        <div class="rounded-lg p-2 bg-gray-600 flex flex-col">
-            <div>
-                <h5 class="text-white text-base font-bold leading-3">
+    <div class="bg-grey rounded-lg min-h-32 md:min-h-40 lg:min-h-60 p-2 flex flex-col">
+      <figure class="mb-1">
+        <img :src="productObject.productImgUrl" alt="" class="h-28 md:h-40 lg:h-60 ml-auto mr-auto" />
+      </figure>
+      <div class="rounded-lg p-2 bg-gray-600 flex flex-col flex-grow">
+        <div class="product_heading">
+            <h5 class="text-white text-sm font-bold leading-5">
                 {{ productObject.productTitle }}
-                </h5>
-                <span class="text-sm text-white font-medium leading-3">{{ productObject.productDesc }}</span>
-            </div>
-            <div class="flex items-center">
-                <div class="text-lg text-white font-light">
-                    <span class="rupee-icon"></span>{{ productObject.productPrice }}
-                </div>
-            </div>
-            <div v-if="!isAddButtonClick && newProductQty == 0" class="flex items-end justify-end">
-                <AcButton  buttonType="text" class="flex ml-auto w-15 h-10 px-2" @click="addProduct">  
-                    Add to Cart
-                </AcButton>
-            </div>
-            <div v-if="isAddButtonClick || newProductQty != 0 " class="flex items-end justify-end">
-                <MiniBasketPicker 
-                    :productId="productObject.productId"
-                    :initialQty="newProductQty"
-                    @removeProduct="handleRemoveProduct"
-                >
-                </MiniBasketPicker>
+            </h5>
+        </div>
+        <div class="product_sub-heading">
+            <span class="text-xs text-white font-medium leading-4 whitespace-nowrap overflow-hidden truncate">{{ productObject.productDesc }}</span>
+        </div>
+        <div class="flex items-center">
+          <div class="text-base text-white font-light">
+            <span class="rupee-icon"></span>{{ productObject.productPrice }}
+          </div>
+        </div>
+        <div v-if="!isAddButtonClick && newProductQty == 0" class="flex items-end justify-end">
+            <div class="ml-auto" style="width: 15rem;">
+            <AcButton buttonType="text" class="w-full h-full" @click="addProduct">  
+                Add to Cart
+            </AcButton>
             </div>
         </div>
+
+        <div v-if="isAddButtonClick || newProductQty != 0" class="flex items-end justify-end">
+          <MiniBasketPicker 
+            :productId="productObject.productId"
+            :initialQty="newProductQty"
+            @removeProduct="handleRemoveProduct"
+          >
+          </MiniBasketPicker>
+        </div>
+      </div>
     </div>
-</template>
+  </template>
+  
 
 <script>
     import { computed, ref } from 'vue';
