@@ -10,19 +10,20 @@
             </h5>
         </div>
         <div class="product_sub-heading">
-            <span class="text-xs text-white font-medium leading-4">{{ productObject.productDesc }}</span>
+            <span class="text-xs text-white font-extralight leading-4">{{ productObject.productDesc }}</span>
         </div>
         <div class="flex items-center">
           <div class="text-base text-white font-light">
             <span class="rupee-icon"></span>{{ productObject.productPrice }}
           </div>
         </div>
-        <div v-if="!isAddButtonClick && newProductQty == 0" class="flex items-end justify-end">
-            <div class="ml-auto" style="width: 15rem;">
-            <AcButton buttonType="text" class="w-full h-full" @click="addProduct">  
-                Add to Cart
+        <div v-if="!isAddButtonClick && newProductQty == 0" class="flex items-end justify-end h-5">
+            <AcButton class="ml-auto" 
+            buttonType="text" 
+            padding="p-0.5"
+            @click="addProduct">  
+                <span class="text-sm">Add to Cart</span>
             </AcButton>
-            </div>
         </div>
 
         <div v-if="isAddButtonClick || newProductQty != 0" class="flex items-end justify-end">
