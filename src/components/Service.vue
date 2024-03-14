@@ -1,6 +1,6 @@
 <template>
   <div v-if="!isAdmin" class="flex items-center bg-gray-50 w-screen">
-    <div class="container ml-auto mr-auto">
+    <div class="container ml-auto mr-auto mb-10">
       <div class="flex flex-wrap items-start">
         <div class="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 pr-5 mb-5 lg:pl-2 lg:pr-2" v-for="(product, index) in newProductList" :key="index">
           <ProductCardVue :productObject="product"></ProductCardVue>
