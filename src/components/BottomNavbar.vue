@@ -1,5 +1,5 @@
 <template>
-  <div id="app-shell">
+  <div id="app-shell" class="fixed bottom-0 w-full h-16 bg-primary flex justify-around items-center">
     <router-link exact to="/">
       <svg class="icon" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17h-2v-2h2v2zm0-4h-2v-5h2v5zm4 4h-3v-2h-2v-2h-2v-2h2V9c0-.56.45-1 1-1s1 .44 1 1v3h3v2h-3v2h3v2zm4-6h-2v2h2v-2z"/>
