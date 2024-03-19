@@ -125,7 +125,7 @@ const store = createStore({
       }
     }, 
     checkUserDevice({commit}) {
-      commit('setMobileDevice', window.innerWidth <= 765);
+      commit('setMobileDevice', window.innerWidth <= 650);
     },
     
   }

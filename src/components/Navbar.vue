@@ -19,7 +19,7 @@
             </span> -->
         </div>
 
-        <div :class="isMobileDevice ? 'my-2' : 'mb-2'">
+        <div :class="isMobileDevice ? 'my-2' : 'mb-2 md:w-1/3' ">
             <SearchBar v-if="!isAdmin"></SearchBar>
             <ul
                 class="md:flex md:item-end md:px-0 px-3 md:pb-0 pb-10 md:static absolute bg-gray-900 md:w-auto w-1/2 top-14 duration-700 ease-in opacity-90"
@@ -88,10 +88,10 @@ setup () {
     const isMobileDevice = computed(() => store.state.isMobileDevice);
 
     const handleResize = () => {
-      if(window.innerWidth <= 765) {
-        store.commit('setMobileDevice', window.innerWidth <= 765);
+      if(window.innerWidth <= 650) {
+        store.commit('setMobileDevice', window.innerWidth <= 650);
       } else {
-        store.commit('setMobileDevice', window.innerWidth <= 765);
+        store.commit('setMobileDevice', window.innerWidth <= 650);
       }
     };
 
