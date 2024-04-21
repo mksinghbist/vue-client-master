@@ -13,10 +13,6 @@
                     <strong>Local Bazzar</strong>
                 </h1>
             </router-link>
-
-            <!-- <span v-if="isMobileDevice" class="flex items-center cursor-pointer">
-                <MiniBasket v-if="!isAdmin"></MiniBasket> 
-            </span> -->
         </div>
 
         <div :class="isMobileDevice ? 'my-2' : 'mb-2 md:w-1/3' ">

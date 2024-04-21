@@ -1,17 +1,19 @@
 <template>
-  <div class="m-2 md:m-0 lg:m-0 bg-gray-50 h-screen">
+  <div class="m-2 md:m-0 lg:m-0 bg-gray-50 h-screen flex flex-col">
     <AcLoader></AcLoader>
-    <div v-if="isLogined">
-        <Navbar></Navbar> 
-        <div class="mt-40">
+    <div v-if="isLogined" class="flex flex-col flex-1">
+      <Navbar></Navbar>
+      <div class="flex flex-1 mt-36"> <!-- Added mt-16 (or adjust as needed) for margin-top -->
+        <div class="flex-1">
           <RouterView></RouterView>
         </div>
-        <BottomNavBar/>
-        
+      </div>
+      <BottomNavBar/>
     </div>
-    <LoginPage v-if="!isLogined"></LoginPage>
+    <LoginPage v-else></LoginPage>
   </div>
 </template>
+
 
 <script>
 import Navbar from './components/Navbar.vue'

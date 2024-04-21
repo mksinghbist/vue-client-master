@@ -1,13 +1,13 @@
 <template>
       <div
         class="basket-container"
+        @mouseover="showBasketModal"
+        @mouseout="hideBasketModal"
         >
         <AcButton
             v-if="!isMobileDevice"
             id="basket big" 
-            class=""     
-            @mouseover="showBasketModal"
-            @mouseout="hideBasketModal"
+            class=""
             @click="redirectToCart"
         >
             <span>

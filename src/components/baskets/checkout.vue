@@ -1,6 +1,7 @@
 <template>
-    <div v-if="totalProductQty != 0" class="bg-white">
+    <div v-if="totalProductQty != 0" class="bg-white ">
         <div class="user_address">
+            <strong>Current Address</strong>
         </div>
         <div class="carts_product-list">
             <ul>

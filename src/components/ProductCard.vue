@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-grey rounded-lg min-h-32 md:min-h-40 lg:min-h-60 p-2 flex flex-col">
+    <div class="bg-grey rounded-lg border-solid border min-h-32 md:min-h-40 lg:min-h-60 p-2 flex flex-col">
       <figure class="mb-1">
         <img :src="productObject.productImgUrl" alt="" class="h-28 md:h-40 lg:h-60 ml-auto mr-auto" />
       </figure>

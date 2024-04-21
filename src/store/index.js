@@ -74,11 +74,12 @@ const store = createStore({
       }
     },
     addToCart(state, carts) {
-      state.customerCart.cartEntries = carts ? carts : [];
-      localStorage.setItem('customerCart',JSON.stringify(state.customerCart));
-      if(state.isLogin) {
-        updateUserCart('user/cartsupdate',{ userCart : state.customerCart.cartEntries } );
-      }
+      const currentCart = carts ? carts : [];
+        state.customerCart.cartEntries = currentCart;
+        localStorage.setItem('customerCart',JSON.stringify(state.customerCart));
+        if(state.isLogin) {
+          updateUserCart('user/cartsupdate',{ userCart : state.customerCart.cartEntries } );
+        }
     },
     setMobileDevice(state, isSmallDevice){
       state.isMobileDevice = isSmallDevice;
